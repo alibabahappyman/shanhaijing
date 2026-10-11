@@ -1,0 +1,771 @@
+{
+  "id": "dongshan",
+  "title": "东山经",
+  "tagline": "向东，向东，直到海",
+  "theme": {
+    "paper": "#efe6d5",
+    "ink": "#3a3128",
+    "accent": "#c0392b",
+    "envFrom": "#efe6d5",
+    "envTo": "#7a8b99"
+  },
+  "scenes": [
+    {
+      "id": "shuzhu",
+      "seg": 0,
+      "node": "樕䘄山",
+      "title": "樕䘄山 · 启程",
+      "kicker": "东山经 · 次一经",
+      "quote": "东山经之首，曰樕䘄之山，临于西海。——《山海经》",
+      "narration": "从这里向东，凡十二山，三千六百里。北望 Espresso…不，北望海水，第一程沿水而行。",
+      "beast": "shanyu"
+    },
+    {
+      "id": "congzhuang",
+      "seg": 0,
+      "node": "栒状山",
+      "title": "栒状山 · 从从",
+      "kicker": "次一经 · 第一兽",
+      "quote": "有兽焉，其状如犬，六足，其鸣自詨，见则天下大穰。——《东山经》",
+      "narration": "六足的从从出现的那一年，天下大熟。路上的第一个预兆，竟是丰收。",
+      "beast": "congcong"
+    },
+    {
+      "id": "taishan",
+      "seg": 0,
+      "node": "泰山",
+      "title": "泰山 · 收束",
+      "kicker": "次一经 · 终点",
+      "quote": "环水出焉，东流注于江，其中多水玉。——《东山经》",
+      "narration": "凡十二山，行三千六百里。第一程在泰山脚下收束，河神皆人身龙首。向北，进入密林。",
+      "beast": "dongdong"
+    },
+    {
+      "id": "kongsang",
+      "seg": 1,
+      "node": "空桑山",
+      "title": "空桑山 · 入林",
+      "kicker": "东山经 · 次二经",
+      "quote": "又南三百里，曰空桑之山，无草木，冬夏有雪。——《山海经》",
+      "narration": "空桑——神农、颛顼之地。冬夏有雪的山，是第二程的门。林中兽迹渐多，预兆一个比一个紧。",
+      "beast": "lingling"
+    },
+    {
+      "id": "yueyu",
+      "seg": 1,
+      "node": "余峨山",
+      "title": "余峨山 · 犰狳",
+      "kicker": "次二经 · 灾异之一",
+      "quote": "有兽焉，其状如菟而鸟喙，鸱目蛇尾，见则螽蝗为败。——《东山经》",
+      "narration": "犰狳走过之处，螽蝗成灾。灾异的序曲从这里响起。",
+      "beast": "qiuyu"
+    },
+    {
+      "id": "gengshan",
+      "seg": 1,
+      "node": "耿山",
+      "title": "耿山 · 朱獳",
+      "kicker": "次二经 · 灾异之二",
+      "quote": "有兽焉，其状如狐而鱼翼，其音如獳，见则其国有恐。——《东山经》",
+      "narration": "水碧生于山下，朱獳鸣于山间。它开口叫自己名字的时候，国中将有恐惧。",
+      "beast": "zhuru"
+    },
+    {
+      "id": "beishan",
+      "seg": 1,
+      "node": "碷山",
+      "title": "碷山 · 絜钩",
+      "kicker": "次二经 · 灾异之三",
+      "quote": "有兽焉，其状如凫而鼠尾，善登木，见则县多土功。——《东山经》",
+      "narration": "蝗灾、国恐、土功——三兽三兆，密林的尽头是一个个预言。向东，海岸已在风里。",
+      "beast": "xiegou"
+    },
+    {
+      "id": "shihu",
+      "seg": 2,
+      "node": "尸胡山",
+      "side": "right",
+      "panel": "bottom-left",
+      "title": "尸胡山 · 离岸",
+      "kicker": "东山经 · 次三经",
+      "quote": "又南水行八百里，曰尸胡之山，其上多金玉，其下多蒺藜。——《山海经》",
+      "narration": "从这里不再有陆路。船离岸的时候，山神换了面孔——人身羊角，海的神。",
+      "beast": "yuhu"
+    },
+    {
+      "id": "zhizhong",
+      "seg": 2,
+      "node": "跂踵山",
+      "side": "left",
+      "title": "跂踵山 · 鮯鮯",
+      "kicker": "次三经 · 六足奇鱼",
+      "quote": "有水焉，其中多鮯鮯之鱼，其状如鸡而赤毛，三尾六足四首，其音如鹊，见则其邑大旱。——《东山经》",
+      "narration": "方圆二百里不生草木，泽中却游着三尾六足四首的怪鱼，啼声如鹊，现则大旱。",
+      "beast": "gaigai"
+    },
+    {
+      "id": "mouyu",
+      "seg": 2,
+      "node": "踇隅山",
+      "side": "right",
+      "title": "踇隅山 · 风中终点",
+      "kicker": "次三经 · 收束",
+      "quote": "有兽焉，其状如牛而马尾，其名曰精精，其鸣自詨。——《东山经》",
+      "narration": "精精鸣于踇隅，海风止于无皋。第三程的水路走完，前方是海中的岛屿。",
+      "beast": "jingjing"
+    },
+    {
+      "id": "beihao",
+      "seg": 3,
+      "node": "北号山",
+      "side": "right",
+      "title": "北号山 · 临海",
+      "kicker": "东山经 · 次四经",
+      "quote": "又南三百里，曰北号之山，临于北海。——《山海经》",
+      "narration": "最后一程从海岛开始。猲狙与鬿雀同栖一山，凶兽的浓度在这里最高。",
+      "beast": "juzu"
+    },
+    {
+      "id": "nuzheng",
+      "seg": 3,
+      "node": "女烝山",
+      "side": "right",
+      "title": "女烝山 · 薄鱼",
+      "kicker": "次四经 · 凶兆",
+      "quote": "石膏水出焉，其中多薄鱼，见则天下大旱。——《东山经》",
+      "narration": "薄鱼一现，天下大旱。岛上的预言越来越重。",
+      "beast": "boyu"
+    },
+    {
+      "id": "shanshan",
+      "seg": 3,
+      "node": "剡山",
+      "title": "剡山 · 合窳",
+      "kicker": "次四经 · 凶兆",
+      "quote": "有兽焉，其状如彘而人面，黄身而赤尾，其音如婴啼，见则天下大水。——《东山经》",
+      "narration": "人面的合窳啼哭如婴儿，它出现的地方洪水滔天。最后一只凶兽之后——转机。",
+      "beast": "heyu"
+    },
+    {
+      "id": "qinshan",
+      "seg": 3,
+      "node": "钦山",
+      "side": "right",
+      "title": "钦山 · 当康",
+      "kicker": "次四经 · 大穰",
+      "quote": "有兽焉，其状如豚而有牙，其名曰当康，其鸣自詨，见则天下大穰。——《山海经》",
+      "narration": "凶过之后，吉来收尾。当康的叫声响起的那一年，天下大熟。全经在此停住。",
+      "beast": "dangkang"
+    }
+  ],
+  "segments": [
+    {
+      "id": "seg-1",
+      "title": "次一经 · 溯水",
+      "anchor": "泰山",
+      "quote": "又南三百里，曰樕䘄之山，其上多金玉，其下多桋木。",
+      "narration": "从樕䘄山出发，沿水而行。这一路河湖密布：食水、湖水、减水、姑儿水、泺水、末涂水依次经过。",
+      "nodes": [
+        {
+          "name": "樕䘄山",
+          "x": 120,
+          "y": 120,
+          "products": [
+            "食水",
+            "鳙鳙鱼"
+          ],
+          "beast": "shanyu"
+        },
+        {
+          "name": "藟山",
+          "x": 220,
+          "y": 180,
+          "products": [
+            "湖水",
+            "活师"
+          ],
+          "beast": null
+        },
+        {
+          "name": "栒状山",
+          "x": 160,
+          "y": 290,
+          "products": [
+            "訹水",
+            "箴鱼"
+          ],
+          "beast": "congcong"
+        },
+        {
+          "name": "勃垒山",
+          "x": 290,
+          "y": 350,
+          "products": [
+            "金玉",
+            "青碧"
+          ],
+          "beast": null
+        },
+        {
+          "name": "番条山",
+          "x": 410,
+          "y": 300,
+          "products": [
+            "减水",
+            "鳡鱼"
+          ],
+          "beast": null
+        },
+        {
+          "name": "姑儿山",
+          "x": 530,
+          "y": 350,
+          "products": [
+            "姑儿水",
+            "鳡鱼"
+          ],
+          "beast": null
+        },
+        {
+          "name": "高氏山",
+          "x": 630,
+          "y": 430,
+          "products": [
+            "诸绳水",
+            "箴石"
+          ],
+          "beast": null
+        },
+        {
+          "name": "岳山",
+          "x": 750,
+          "y": 390,
+          "products": [
+            "泺水",
+            "桑椇"
+          ],
+          "beast": null
+        },
+        {
+          "name": "犲山",
+          "x": 850,
+          "y": 470,
+          "products": [
+            "堪犴",
+            "兽"
+          ],
+          "beast": null
+        },
+        {
+          "name": "独山",
+          "x": 950,
+          "y": 430,
+          "products": [
+            "末涂水",
+            "儵鱬"
+          ],
+          "beast": null
+        },
+        {
+          "name": "泰山",
+          "x": 1050,
+          "y": 510,
+          "products": [
+            "环水",
+            "水玉",
+            "狪狪"
+          ],
+          "beast": "dongdong"
+        },
+        {
+          "name": "竹山",
+          "x": 1150,
+          "y": 470,
+          "products": [
+            "激水",
+            "瑶碧"
+          ],
+          "beast": null
+        }
+      ],
+      "beasts": [
+        {
+          "id": "congcong",
+          "name": "从从",
+          "img": "beast-congcong.gif",
+          "beastPos": {
+            "left": "62%",
+            "bottom": "16vh"
+          },
+          "quote": "其状如犬，六足，其鸣自詨。见则天下大穰。——《东山经》"
+        },
+        {
+          "id": "shanyu",
+          "name": "鳙鳙鱼",
+          "img": "beast-shanyu.gif",
+          "quote": "食水出焉，其中多鳙鳙鱼。——《东山经》",
+          "beastPos": {
+            "left": "58%",
+            "bottom": "18vh"
+          }
+        },
+        {
+          "id": "dongdong",
+          "name": "狪狪",
+          "img": "beast-dongdong.png",
+          "quote": "环水出焉，其中多水玉，有兽焉，其状如豚而有珠，名曰狪狪，其鸣自訆。——《东山经》",
+          "beastPos": {
+            "left": "60%",
+            "bottom": "17vh"
+          }
+        }
+      ],
+      "gods": []
+    },
+    {
+      "id": "seg-2",
+      "title": "次二经 · 穿林",
+      "anchor": "空桑",
+      "quote": "又南三百里，曰曹夕之山，其下多谷而无水，多鸟兽。",
+      "narration": "第二列山先向东南，再折向西南。三兽三兆，灾异递进。",
+      "nodes": [
+        {
+          "name": "空桑山",
+          "x": 120,
+          "y": 140,
+          "products": [
+            "沙石",
+            "鴸鵘",
+            "軨軨"
+          ],
+          "beast": "lingling"
+        },
+        {
+          "name": "曹夕山",
+          "x": 260,
+          "y": 120,
+          "products": [
+            "多鸟兽"
+          ],
+          "beast": null
+        },
+        {
+          "name": "葛山尾",
+          "x": 400,
+          "y": 170,
+          "products": [
+            "砥砺"
+          ],
+          "beast": null
+        },
+        {
+          "name": "葛山首",
+          "x": 540,
+          "y": 150,
+          "products": [
+            "澧水"
+          ],
+          "beast": null
+        },
+        {
+          "name": "余峨山",
+          "x": 680,
+          "y": 190,
+          "products": [
+            "梓楠",
+            "杂余水"
+          ],
+          "beast": "qiuyu"
+        },
+        {
+          "name": "杜父山",
+          "x": 820,
+          "y": 150,
+          "products": [
+            "金玉"
+          ],
+          "beast": null
+        },
+        {
+          "name": "耿山",
+          "x": 950,
+          "y": 210,
+          "products": [
+            "水碧",
+            "朱獳"
+          ],
+          "beast": "zhuru"
+        },
+        {
+          "name": "卢其山",
+          "x": 870,
+          "y": 330,
+          "products": [
+            "沙水",
+            "鵹鹕"
+          ],
+          "beast": null
+        },
+        {
+          "name": "姑射山",
+          "x": 750,
+          "y": 390,
+          "products": [
+            "多水"
+          ],
+          "beast": null
+        },
+        {
+          "name": "北姑射山",
+          "x": 630,
+          "y": 350,
+          "products": [
+            "多石"
+          ],
+          "beast": null
+        },
+        {
+          "name": "南姑射山",
+          "x": 510,
+          "y": 410,
+          "products": [
+            "多水"
+          ],
+          "beast": null
+        },
+        {
+          "name": "碷山",
+          "x": 390,
+          "y": 470,
+          "products": [
+            "箴石",
+            "絜钩"
+          ],
+          "beast": "xiegou"
+        }
+      ],
+      "beasts": [
+        {
+          "id": "qiuyu",
+          "name": "犰狳",
+          "img": "beast-qiuyu.gif",
+          "quote": "其状如菟而鸟喙，鸱目蛇尾，见则螽蝗为败。——《东山经》",
+          "beastPos": {
+            "left": "62%",
+            "bottom": "16vh"
+          }
+        },
+        {
+          "id": "zhuru",
+          "name": "朱獳",
+          "img": "beast-zhuru.gif",
+          "quote": "其状如狐而鱼翼，其音如獳，见则其国有恐。——《东山经》",
+          "beastPos": {
+            "left": "59%",
+            "bottom": "17vh"
+          }
+        },
+        {
+          "id": "xiegou",
+          "name": "絜钩",
+          "img": "beast-xiegou.gif",
+          "quote": "其状如凫而鼠尾，善登木，见则县多土功。——《东山经》",
+          "beastPos": {
+            "left": "61%",
+            "bottom": "18vh"
+          }
+        },
+        {
+          "id": "lingling",
+          "name": "軨軨",
+          "img": "beast-lingling.gif",
+          "quote": "空桑之山……有兽焉，其状如牛而虎文，其名曰軨軨，其鸣自叫，见则天下大风。——《东山经》",
+          "beastPos": {
+            "left": "60%",
+            "bottom": "16vh"
+          }
+        }
+      ],
+      "gods": [
+        {
+          "id": "god-long",
+          "name": "人身龙首神",
+          "img": "god-dragon.png",
+          "desc": "其神之状：人身龙首",
+          "note": "东山经诸山之神，皆人身龙首。"
+        }
+      ]
+    },
+    {
+      "id": "seg-3",
+      "title": "次三经 · 渡海",
+      "anchor": "多风",
+      "quote": "又南水行五百里，流沙三百里，至于跂踵之山，广员二百里，无草木。",
+      "narration": "第三列山已非陆路——这是渡海的航线。",
+      "envShift": true,
+      "nodes": [
+        {
+          "name": "尸胡山",
+          "x": 120,
+          "y": 180,
+          "products": [
+            "金玉",
+            "蒺藜",
+            "妴胡"
+          ],
+          "beast": "yuhu"
+        },
+        {
+          "name": "诸钩山",
+          "x": 250,
+          "y": 240,
+          "products": [
+            "沙石",
+            "寐鱼"
+          ],
+          "beast": null
+        },
+        {
+          "name": "中父山",
+          "x": 380,
+          "y": 300,
+          "products": [
+            "多沙"
+          ],
+          "beast": null
+        },
+        {
+          "name": "孟子山",
+          "x": 510,
+          "y": 320,
+          "products": [
+            "梓桐",
+            "碧阳"
+          ],
+          "beast": null
+        },
+        {
+          "name": "跂踵山",
+          "x": 640,
+          "y": 360,
+          "products": [
+            "深泽",
+            "鮯鮯鱼"
+          ],
+          "beast": "gaigai"
+        },
+        {
+          "name": "踇隅山",
+          "x": 790,
+          "y": 340,
+          "products": [
+            "草木",
+            "金玉"
+          ],
+          "beast": "jingjing"
+        },
+        {
+          "name": "无皋山",
+          "x": 1000,
+          "y": 420,
+          "products": [
+            "多风"
+          ],
+          "beast": null
+        }
+      ],
+      "beasts": [
+        {
+          "id": "jingjing",
+          "name": "精精",
+          "img": "beast-jingjing.gif",
+          "quote": "其状如牛而马尾，其鸣自詨。——《东山经》",
+          "beastPos": {
+            "left": "59%",
+            "bottom": "18vh"
+          }
+        },
+        {
+          "id": "yuhu",
+          "name": "妴胡",
+          "img": "beast-yuhu.gif",
+          "quote": "尸胡之山……有兽焉，其状如麋而鱼目，名曰妴胡，其鸣自訆。——《东山经》",
+          "beastPos": {
+            "left": "62%",
+            "bottom": "17vh"
+          }
+        },
+        {
+          "id": "gaigai",
+          "name": "鮯鮯鱼",
+          "img": "beast-gaigai.gif",
+          "quote": "其中多鮯鮯之鱼，其状如鸡而赤毛，三尾六足四首，其音如鹊，见则其邑大旱。——《东山经》",
+          "beastPos": {
+            "left": "58%",
+            "bottom": "16vh"
+          }
+        }
+      ],
+      "gods": [
+        {
+          "id": "god-yang",
+          "name": "人身羊角神",
+          "img": "god-goat.png",
+          "desc": "其神之状：人身羊角",
+          "note": "行至海岸，山神换了面孔。"
+        }
+      ]
+    },
+    {
+      "id": "seg-4",
+      "title": "次四经 · 登岛",
+      "anchor": "当康",
+      "quote": "又南三百里，曰北号之山，临于北海。",
+      "narration": "最后一列山已是海中岛屿，凶过之后，吉来收尾。",
+      "envShift": true,
+      "nodes": [
+        {
+          "name": "北号山",
+          "x": 940,
+          "y": 180,
+          "products": [
+            "食水",
+            "鬿雀"
+          ],
+          "beast": "juzu"
+        },
+        {
+          "name": "太山",
+          "x": 820,
+          "y": 260,
+          "products": [
+            "金玉",
+            "桢木"
+          ],
+          "beast": null
+        },
+        {
+          "name": "剡山",
+          "x": 900,
+          "y": 380,
+          "products": [
+            "金玉",
+            "合窳"
+          ],
+          "beast": "heyu"
+        },
+        {
+          "name": "钦山",
+          "x": 760,
+          "y": 440,
+          "products": [
+            "师水",
+            "文贝"
+          ],
+          "beast": "dangkang"
+        },
+        {
+          "name": "女烝山",
+          "x": 600,
+          "y": 400,
+          "products": [
+            "石膏水",
+            "薄鱼"
+          ],
+          "beast": "boyu"
+        },
+        {
+          "name": "子桐山",
+          "x": 480,
+          "y": 320,
+          "products": [
+            "子桐水",
+            "鲳鱼"
+          ],
+          "beast": null
+        },
+        {
+          "name": "东始山",
+          "x": 360,
+          "y": 360,
+          "products": [
+            "苍体水",
+            "鲳鱼"
+          ],
+          "beast": null
+        },
+        {
+          "name": "旄山",
+          "x": 240,
+          "y": 200,
+          "products": [
+            "苍玉",
+            "茈鱼"
+          ],
+          "beast": null
+        }
+      ],
+      "beasts": [
+        {
+          "id": "juzu",
+          "name": "猲狙",
+          "img": "beast-juzu.gif",
+          "quote": "其状如狼，赤首鼠目，其音如豚，见则天下大疾。——《东山经》",
+          "beastPos": {
+            "left": "60%",
+            "bottom": "18vh"
+          }
+        },
+        {
+          "id": "heyu",
+          "name": "合窳",
+          "img": "beast-heyu.gif",
+          "quote": "其状如彘而人面，黄身赤尾，其音如婴啼，见则天下大水。——《东山经》",
+          "beastPos": {
+            "left": "59%",
+            "bottom": "16vh"
+          }
+        },
+        {
+          "id": "dangkang",
+          "name": "当康",
+          "img": "beast-dangkang.gif",
+          "quote": "其状如豚而有牙，其鸣自詨，见则天下大穰。——《东山经》",
+          "beastPos": {
+            "left": "61%",
+            "bottom": "18vh"
+          }
+        },
+        {
+          "id": "boyu",
+          "name": "薄鱼",
+          "img": "beast-boyu.gif",
+          "quote": "石膏水出焉，其中多薄鱼，见则天下大旱。——《东山经》",
+          "beastPos": {
+            "left": "60%",
+            "bottom": "17vh"
+          }
+        }
+      ],
+      "gods": []
+    }
+  ],
+  "finale": {
+    "gods": [
+      {
+        "name": "人身龙首神",
+        "img": "god-dragon.png"
+      },
+      {
+        "name": "兽身人面神",
+        "img": "god-beast.png"
+      },
+      {
+        "name": "人身羊角神",
+        "img": "god-goat.png"
+      }
+    ],
+    "note": "越往东，神越不像人；路的尽头，是海与丰收。",
+    "quote": "凡东山经之首，自樕䘄以至于竹山，凡十二山，三千六百里。——《山海经·东山经》"
+  }
+}

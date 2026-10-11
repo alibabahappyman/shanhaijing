@@ -1,0 +1,1504 @@
+:root {
+  --paper: #efe6d5;
+  --paper-dark: #e5d9c3;
+  --ink: #3a3128;
+  --ink-light: #7a6f5f;
+  --accent: #c0392b;
+  --sea-from: #efe6d5;
+  --sea-to: #7a8b99;
+  --gold: #d4a843;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 不设 html { scroll-behavior: smooth }：与手势驱动的 gsap 补间互相拉扯会导致卡死 */
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
+  overflow-x: hidden;
+}
+
+/* ---------- 长卷背景层（横移画卷） ---------- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.backdrop-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 300vw; /* 画卷宽 300vw，随滚动横移 200vw */
+  object-fit: cover;
+  will-change: transform;
+}
+
+/* 图未就位时的占位：缓慢移动的色带 */
+.backdrop-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 500vw;
+  display: flex;
+}
+
+.backdrop .band {
+  flex: 1;
+  height: 100%;
+}
+
+.backdrop .band-a { background: linear-gradient(180deg, #e8dcc4 0%, #dfd2b4 100%); }
+.backdrop .band-b { background: linear-gradient(180deg, #dfe0c8 0%, #cfd2b6 100%); }
+.backdrop .band-c { background: linear-gradient(180deg, #ccd4d2 0%, #b8c4c6 100%); }
+
+/* 纸纹颗粒覆盖 */
+.backdrop-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: radial-gradient(rgba(58, 49, 40, 0.6) 0.5px, transparent 0.5px);
+  background-size: 3px 3px;
+}
+
+/* ---------- 场景吸附引擎（GSAP pinned 舞台） ---------- */
+.stage {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 古地图底层 */
+.map-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 动态实景 webp 层：乘法混合融进纸底，径向羽化消除图框边界，淡入过渡 */
+.motion-layer {
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at center, black 55%, transparent 92%);
+  mask-image: radial-gradient(ellipse 50% 50% at center, black 55%, transparent 92%);
+  transition: opacity 0.5s ease;
+}
+
+/* 站点内容层 */
+.scene-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.scene-panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  pointer-events: none;
+}
+
+.scene-panel.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.scene-inner {
+  max-width: 620px;
+  margin-right: 32vw; /* 场景内容靠左，地图行进感留在右侧 */
+  padding: 0 2rem;
+  background: rgba(239, 230, 213, 0.72);
+  backdrop-filter: blur(3px);
+  border-left: 3px solid var(--accent);
+  padding-left: 2.2rem;
+}
+
+.scene-kicker {
+  font-size: 0.8rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+
+.scene-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: 0.2em;
+  margin-bottom: 1.2rem;
+}
+
+.scene-quote {
+  writing-mode: vertical-rl;
+  position: absolute;
+  right: -3.5rem;
+  top: 0;
+  font-size: 0.9rem;
+  color: var(--ink-light);
+  line-height: 2.2;
+  letter-spacing: 0.15em;
+  max-height: 60vh;
+}
+
+.scene-narration {
+  font-size: 1rem;
+  line-height: 2;
+  margin-bottom: 1.4rem;
+}
+
+.scene-beast .beast-card {
+  margin: 0;
+}
+
+.hero-scene {
+  flex-direction: column;
+  gap: 3rem;
+  text-align: center;
+}
+
+.hero-scene h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+
+/* 开卷逐字上浮：每个字从遮罩下浮出（delay 递进，见组件内联） */
+.hero-scene h1 span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.45em) scale(1.06);
+  filter: blur(6px);
+  transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+}
+
+.hero-scene.active h1 span {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.hero-scene .tagline {
+  font-size: 1.1rem;
+  color: var(--ink-light);
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+}
+
+.finale-scene {
+  flex-direction: column;
+  gap: 2rem;
+  text-align: center;
+  background: radial-gradient(ellipse at center, rgba(239, 230, 213, 0.55), rgba(239, 230, 213, 0.85));
+}
+
+/* 底部行进条 */
+.progress-bar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(58, 49, 40, 0.12);
+  z-index: 100;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: none;
+}
+
+/* ---------- 开屏面板 ---------- */
+.hero-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  z-index: 2;
+}
+
+.hero-panel h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+
+.hero-panel .tagline {
+  font-size: 1.1rem;
+  color: var(--ink-light);
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+}
+
+.hero-panel .scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  animation: bob 2s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 10px); }
+}
+
+/* ---------- 经面板：左信息/中路线/右图鉴 ---------- */
+.seg-panel {
+  display: flex;
+  align-items: center;
+  gap: 4vw;
+  padding: 0 6vw;
+  z-index: 2;
+}
+
+.seg-head {
+  width: 24vw;
+  flex-shrink: 0;
+}
+
+.seg-head .segment-title {
+  font-size: 1.8rem;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.seg-head .segment-quote {
+  writing-mode: vertical-rl;
+  font-size: 0.95rem;
+  color: var(--ink-light);
+  line-height: 2.2;
+  letter-spacing: 0.15em;
+  height: 46vh;
+}
+
+.seg-panel .route-wrap {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.seg-panel .route-wrap.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.seg-side {
+  width: 24vw;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.seg-side .segment-narration {
+  font-size: 0.98rem;
+  line-height: 2;
+}
+
+.seg-side .segment-anchor {
+  font-size: 0.9rem;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+}
+
+.beast-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.seg-panel .beast-card {
+  margin: 0;
+  max-width: none;
+}
+
+/* 段内山神（半透明立于路线后景） */
+.seg-god {
+  position: absolute;
+  right: 6vw;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.45;
+  z-index: -1;
+}
+
+/* ---------- 迷你总览（左上固定） ---------- */
+.vertical-title {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.35em;
+  font-weight: 700;
+}
+
+/* ---------- 画中异兽热点（BeastSpot） ---------- */
+/* 画卷上的"活物"：有图时 webp 乘法混合融纸底，悬浮放大 + 朱砂描边；无图时一枚小朱砂印 */
+.beast-spot-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: 12vh;
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.beast-spot {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0.4rem;
+  cursor: pointer;
+  line-height: 0;
+  transition: transform 0.35s var(--easing, ease-out), filter 0.35s;
+}
+
+.beast-spot img {
+  width: clamp(90px, 12vw, 150px);
+  height: auto;
+  mix-blend-mode: multiply; /* 与宣纸底相融，和 motion-layer 同款处理 */
+  filter: drop-shadow(0 2px 6px rgba(58, 49, 40, 0.2));
+  pointer-events: none;
+}
+
+/* 无图兜底：朱砂"兽"字小印记 */
+.beast-spot-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  background: var(--accent);
+  color: #f6efdf;
+  font-size: 0.95rem;
+  border-radius: 3px;
+  box-shadow: 0 1px 6px rgba(192, 57, 43, 0.3);
+  line-height: 1;
+}
+
+.beast-spot:hover {
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 10px rgba(192, 57, 43, 0.55)); /* 悬浮朱砂光晕 */
+}
+
+.beast-spot:hover .beast-spot-seal {
+  box-shadow: 0 0 12px rgba(192, 57, 43, 0.6);
+}
+
+/* 点开后的画中详情卡：博物馆标签式 */
+.beast-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(58, 49, 40, 0.25);
+  cursor: pointer;
+}
+
+.beast-popup {
+  position: fixed;
+  left: 50%;
+  bottom: 14vh;
+  transform: translateX(-50%);
+  z-index: 61;
+  width: min(360px, 86vw);
+  background: rgba(255, 252, 245, 0.95);
+  border: 1px solid rgba(185, 58, 38, 0.4);
+  border-left: 3px solid var(--accent);
+  padding: 1.4rem 1.6rem;
+  box-shadow: 0 14px 40px rgba(36, 34, 30, 0.18);
+  animation: beast-pop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes beast-pop {
+  from { opacity: 0; transform: translateX(-50%) translateY(14px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.beast-popup-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.beast-popup-name {
+  font-size: 1.5rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.7rem;
+}
+
+.beast-popup-img {
+  width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  margin-bottom: 0.7rem;
+}
+
+/* 弹卡内 3D 立体轮播：中卡大且正对，两侧卡缩小、斜靠、后移，点击卡片或箭头旋转换位 */
+.beast-carousel {
+  position: relative;
+  height: 230px;
+  margin-bottom: 0.7rem;
+  perspective: 900px;
+  perspective-origin: 50% 45%;
+}
+
+.beast-card {
+  position: absolute;
+  top: 0;
+  /* 水平：先回退自身一半宽度再按姿态偏移；垂直：直接定位，避免百分比位移叠加出错 */
+  left: calc(50% - 70px + var(--x, 0px));
+  width: 140px;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.55s, z-index 0s;
+}
+
+.beast-card img,
+.beast-carousel-placeholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  display: block;
+  mix-blend-mode: multiply;
+  border-radius: 4px;
+}
+
+.beast-card.center {
+  --x: 0px;
+  transform: translateY(4px) translateZ(55px);
+  z-index: 3;
+}
+
+.beast-card.center img,
+.beast-card.center .beast-carousel-placeholder {
+  filter: drop-shadow(0 10px 16px rgba(36, 34, 30, 0.22));
+}
+
+.beast-card.left,
+.beast-card.right {
+  z-index: 1;
+  opacity: 0.55;
+}
+
+.beast-card.left {
+  --x: -86px;
+  transform: translateY(26px) translateZ(-40px) rotateY(26deg) scale(0.68);
+}
+
+.beast-card.right {
+  --x: 86px;
+  transform: translateY(26px) translateZ(-40px) rotateY(-26deg) scale(0.68);
+}
+
+/* 静图未生成时的占位卡：宣纸底 + 朱砂"兽"字虚线框 */
+.beast-carousel-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 252, 245, 0.9);
+  border: 1px dashed rgba(185, 58, 38, 0.35);
+}
+
+.beast-carousel-placeholder span {
+  font-size: 2.4rem;
+  color: rgba(185, 58, 38, 0.45);
+}
+
+.beast-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  border: 1px solid rgba(185, 58, 38, 0.45);
+  background: rgba(255, 252, 245, 0.85);
+  color: var(--accent);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.beast-carousel-arrow:hover {
+  background: rgba(185, 58, 38, 0.14);
+}
+
+.beast-carousel-arrow.prev { left: 0.35rem; }
+.beast-carousel-arrow.next { right: 0.35rem; }
+
+.beast-carousel-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.3rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.beast-carousel-dot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: rgba(36, 34, 30, 0.25);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.beast-carousel-dot.on {
+  background: var(--accent);
+  transform: scale(1.2);
+}
+
+.beast-popup-quote {
+  font-size: 0.88rem;
+  line-height: 1.9;
+  color: var(--ink-light);
+}
+
+.beast-popup-hint {
+  margin-top: 0.8rem;
+  font-size: 0.72rem;
+  color: var(--ink-light);
+  opacity: 0.6;
+  letter-spacing: 0.2em;
+}
+
+/* ---------- 场景文字面板位置变体：让开主山构图 ---------- */
+/* 默认：靠左（原样） */
+.scene-inner.panel-left {
+  margin-right: 32vw;
+}
+
+/* 贴左下：给偏右下构图的主山让位（如尸胡山） */
+.scene-inner.panel-bottom-left {
+  margin-right: auto;
+  margin-top: 32vh;
+  max-width: 520px;
+  padding: 1.6rem 2rem;
+  background: rgba(239, 230, 213, 0.78);
+}
+
+/* ---------- 竖排题跋文字列（替代半透明面板） ---------- */
+/* 贴画边的竖排引文：无底框，纸色光晕保可读，随滚动流动+逐字显影（内联驱动） */
+.scene-col {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.4rem;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.scene-col-left { left: 6vw; align-items: flex-start; }
+.scene-col-right { right: 6vw; align-items: flex-end; }
+
+.scene-col-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-shadow: 0 0 10px var(--paper), 0 0 18px var(--paper);
+}
+
+.scene-col-title {
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  letter-spacing: 0.22em;
+  color: var(--ink);
+  text-shadow: 0 0 12px var(--paper), 0 0 22px var(--paper);
+}
+
+.scene-col-quotes {
+  display: flex;
+  gap: 1.1rem;
+  align-items: flex-start;
+}
+
+/* 引文正文：竖排逐字显影（span 透明度由组件内联控制） */
+.scene-col-quote {
+  writing-mode: vertical-rl;
+  font-size: 0.95rem;
+  color: var(--ink);
+  line-height: 2.2;
+  letter-spacing: 0.15em;
+  max-height: 58vh;
+  text-shadow: 0 0 10px var(--paper), 0 0 16px var(--paper);
+}
+
+.scene-col-quote span {
+  transition: opacity 0.25s linear;
+}
+
+/* narration：第二条细小竖排列，更淡 */
+.scene-col-narr {
+  writing-mode: vertical-rl;
+  font-size: 0.8rem;
+  color: var(--ink-light);
+  line-height: 2.1;
+  letter-spacing: 0.14em;
+  max-height: 48vh;
+  text-shadow: 0 0 10px var(--paper), 0 0 16px var(--paper);
+}
+
+.scene-col-narr span {
+  transition: opacity 0.25s linear;
+}
+
+/* ---------- 宣纸颗粒层 ---------- */
+/* 全局极轻纸纹：feTurbulence 内联噪点，overlay 混合，让平涂纸底有纤维毛感 */
+.paper-grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-grain { display: none; }
+}
+
+/* ---------- 站题逐字上浮 ---------- */
+/* 标题按字拆 span：active 时逐字从遮罩下浮出（delay 递进），离站即复位 */
+.scene-col-title span {
+  display: inline-block;
+  white-space: pre; /* 标题中的空格不折叠 */
+  opacity: 0;
+  transform: translateY(0.7em);
+  transition: opacity 0.5s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scene-col.active .scene-col-title span {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scene-col-kicker {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease 0.05s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+}
+
+.scene-col.active .scene-col-kicker {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- 墨圈光标（InkCursor） ---------- */
+/* 墨点 + 缓动追随的墨圈：可点元素上圈放大。触屏设备组件内自动禁用 */
+.ink-cursor {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.ink-cursor-dot {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(58, 49, 40, 0.85); /* --ink */
+}
+
+.ink-cursor-ring {
+  position: absolute;
+  top: -17px;
+  left: -17px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(58, 49, 40, 0.45);
+  transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.ink-cursor-ring.is-hover {
+  width: 56px;
+  height: 56px;
+  top: -28px;
+  left: -28px;
+  border-color: rgba(192, 57, 43, 0.65); /* 朱砂提示可点 */
+}
+
+/* 发光效果（仿 CGTN《The Song Painted》光标）：圈心柔光随行，hover 时光晕增强 */
+.ink-cursor-ring {
+  box-shadow:
+    0 0 10px rgba(212, 168, 67, 0.55),
+    0 0 24px rgba(212, 168, 67, 0.3),
+    inset 0 0 10px rgba(212, 168, 67, 0.35);
+}
+
+.ink-cursor-ring.is-hover {
+  box-shadow:
+    0 0 18px rgba(192, 57, 43, 0.7),
+    0 0 40px rgba(192, 57, 43, 0.35),
+    0 0 70px rgba(192, 57, 43, 0.18),
+    inset 0 0 14px rgba(192, 57, 43, 0.4);
+}
+
+.ink-cursor-dot {
+  box-shadow: 0 0 10px rgba(212, 168, 67, 0.7), 0 0 20px rgba(212, 168, 67, 0.3);
+}
+
+/* ---------- 站间墨晕过渡薄膜 ---------- */
+/* 翻站途中浮起的一层淡墨纱（透明度由 ScrollScroll 内联驱动），站心完全消散 */
+.ink-wash {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 120% 90% at 50% 50%,
+    rgba(58, 49, 40, 0.16) 0%,
+    rgba(58, 49, 40, 0.34) 55%,
+    rgba(239, 230, 213, 0.92) 100%
+  );
+  mix-blend-mode: multiply;
+}
+
+/* ---------- 开屏 ---------- */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  position: relative;
+}
+
+/* 水墨流体画布：铺满 hero 底层，内容浮在上层 */
+.ink-fluid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none; /* 不吃点击；鼠标交互监听在 window 上 */
+}
+
+.hero > *:not(.ink-fluid) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- 首页开场序列（水墨三幕） ---------- */
+/* 覆盖层：盖住首页内容，播完由 GSAP 淡出后整体卸载 */
+.intro-seq {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.2rem;
+  pointer-events: auto;
+  background: transparent; /* 墨画布透出，落墨由 InkFluid 负责 */
+}
+
+.intro-title {
+  font-size: clamp(4rem, 12vw, 9rem);
+  letter-spacing: 0.25em;
+  text-indent: 0.25em;
+  display: flex;
+}
+
+.intro-char {
+  display: inline-block;
+  will-change: opacity, filter, transform;
+}
+
+/* 朱印：红底篆字小方章 */
+.intro-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  background: var(--accent);
+  color: #f6efdf;
+  font-size: 1.15rem;
+  letter-spacing: 0.15em;
+  text-indent: 0.15em;
+  line-height: 1.1;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(192, 57, 43, 0.35);
+  writing-mode: vertical-rl; /* 篆章竖排感 */
+  will-change: opacity, transform;
+}
+
+.intro-tagline {
+  font-size: 1rem;
+  color: var(--ink-light);
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+}
+
+.intro-skip {
+  position: fixed;
+  top: 1.4rem;
+  right: 1.6rem;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--ink);
+  cursor: pointer;
+  letter-spacing: 0.2em;
+  opacity: 0.65;
+}
+.intro-skip:hover {
+  opacity: 1;
+}
+
+
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+
+.hero .tagline {
+  font-size: 1.1rem;
+  color: var(--ink-light);
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  animation: bob 2s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 10px); }
+}
+
+/* ---------- 迷你总览（左上固定） ---------- */
+.mini-overview {
+  position: fixed;
+  top: 1.2rem;
+  left: 1.2rem;
+  z-index: 100;
+  background: rgba(239, 230, 213, 0.85);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(58, 49, 40, 0.25);
+  padding: 0.6rem;
+  border-radius: 4px;
+}
+
+.mini-overview svg {
+  display: block;
+}
+
+.mini-overview .jing-label {
+  font-size: 0.7rem;
+  fill: var(--ink-light);
+}
+
+.mini-overview .jing-label.active {
+  fill: var(--accent);
+  font-weight: 700;
+}
+
+.mini-overview .jing-route {
+  stroke: rgba(58, 49, 40, 0.3);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.mini-overview .jing-route.active {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+
+/* ---------- 右侧里程指示 ---------- */
+.mileage {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  writing-mode: vertical-rl;
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  letter-spacing: 0.2em;
+}
+
+.mileage::before {
+  content: '';
+  width: 1px;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--ink-light), transparent);
+}
+
+/* ---------- 长卷段 ---------- */
+.segment {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 18vh 2rem;
+  position: relative;
+}
+
+.segment-title {
+  font-size: 1.6rem;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.segment-quote {
+  writing-mode: vertical-rl;
+  font-size: 0.95rem;
+  color: var(--ink-light);
+  line-height: 2.2;
+  position: absolute;
+  letter-spacing: 0.15em;
+}
+
+.segment-narration {
+  font-size: 1.05rem;
+  line-height: 2;
+  margin-top: 1rem;
+}
+
+.segment-anchor {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+}
+
+/* ---------- 路线 SVG ---------- */
+.route-wrap {
+  position: relative;
+  margin: 4rem auto;
+}
+
+.route-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.route-path {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 6 6;
+  fill: none;
+}
+
+.route-path.traveled {
+  stroke: var(--ink);
+}
+
+.route-node {
+  fill: var(--ink);
+  r: 5;
+}
+
+.route-node.visited {
+  fill: var(--accent);
+}
+
+.node-label {
+  font-size: 14px;
+  fill: var(--ink);
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.node-label.visited {
+  opacity: 1;
+}
+
+.node-products {
+  font-size: 11px;
+  fill: var(--ink-light);
+  opacity: 0;
+  transition: opacity 0.6s 0.15s;
+}
+
+.node-products.visited {
+  opacity: 0.85;
+}
+
+/* ---------- 图鉴卡 ---------- */
+.beast-card {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  background: rgba(255, 252, 245, 0.9);
+  border: 1px solid rgba(58, 49, 40, 0.3);
+  padding: 1rem 1.4rem;
+  max-width: 420px;
+  margin: 2.5rem auto;
+  box-shadow: 3px 4px 0 rgba(58, 49, 40, 0.12);
+  transform: rotate(-1.2deg) translateY(40px);
+  opacity: 0;
+  transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+.beast-card:nth-child(even) {
+  transform: rotate(1.2deg) translateY(40px);
+}
+
+.beast-card.visible {
+  transform: rotate(-1.2deg) translateY(0);
+  opacity: 1;
+}
+
+.beast-card:nth-child(even).visible {
+  transform: rotate(1.2deg) translateY(0);
+}
+
+.beast-card img,
+.beast-card .img-placeholder {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  border: 1.5px dashed var(--ink-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  text-align: center;
+  background: var(--paper-dark);
+}
+
+.beast-card .beast-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.beast-card .beast-quote {
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  margin-top: 0.3rem;
+  line-height: 1.7;
+}
+
+/* ---------- 山神转场 ---------- */
+.god-divider {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 4rem 2rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.god-divider.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.god-divider img,
+.god-divider .img-placeholder {
+  width: 200px;
+  height: 280px;
+  border: 1.5px dashed var(--ink-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-light);
+  font-size: 0.85rem;
+  background: var(--paper-dark);
+}
+
+.god-divider .god-desc {
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  color: var(--ink);
+}
+
+/* ---------- 尾屏 ---------- */
+.finale {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 4rem 2rem;
+}
+
+.finale .gods-row {
+  display: flex;
+  gap: 3rem;
+}
+
+.finale .finale-note {
+  color: var(--ink-light);
+  letter-spacing: 0.3em;
+  font-size: 0.95rem;
+}
+
+.back-map {
+  margin-top: 2rem;
+  padding: 0.6rem 1.8rem;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.95rem;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.back-map:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ---------- 朱砂钤印（FinaleSeal） ---------- */
+/* finale 收卷印章：滚动到位时顿落→回弹→墨渍晕开（GSAP once，见组件） */
+.finale-seal-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  margin-top: 1rem;
+}
+
+.finale-seal {
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* 待盖状态：GSAP 时间线拉起 */
+  filter: drop-shadow(0 1px 4px rgba(192, 57, 43, 0.25));
+}
+
+.finale-seal-stain {
+  position: absolute;
+  inset: -30%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(192, 57, 43, 0.16) 0%, rgba(192, 57, 43, 0.05) 45%, transparent 70%);
+  opacity: 0;
+  transform: scale(0.5);
+  pointer-events: none;
+}
+
+.finale-seal-stain.on {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 1.2s ease, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .finale-seal { opacity: 1; }
+  .finale-seal-stain { opacity: 1; transform: scale(1); transition: none; }
+}
+
+/* ---------- 画中异兽热点：金色粒子光（追加块） ---------- */
+/* 悬浮时从兽身升起的一簇金色粒子：细小光点沿弧线上浮渐隐，替代旧的红色 drop-shadow */
+.beast-sparks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.beast-spot:hover .beast-sparks {
+  opacity: 1;
+}
+
+.beast-spark {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f4d98c 0%, rgba(212, 168, 67, 0.85) 45%, transparent 70%);
+  box-shadow: 0 0 6px rgba(212, 168, 67, 0.8), 0 0 12px rgba(212, 168, 67, 0.4);
+  opacity: 0;
+}
+
+.beast-spot:hover .beast-spark {
+  animation: spark-rise 1.6s ease-out infinite;
+  animation-delay: calc(var(--d) * 0.22s);
+}
+
+@keyframes spark-rise {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  15% { opacity: 1; }
+  70% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(calc((var(--d) - 3) * 9px), -70px) scale(1.15); }
+}
+
+/* 悬浮光晕改金色（覆盖旧的朱砂描边） */
+.beast-spot:hover {
+  filter: drop-shadow(0 0 10px rgba(212, 168, 67, 0.6));
+}
+
+/* ---------- 墨圈光标：hover 提示色改金（追加块，覆盖上方朱砂配色） ---------- */
+.ink-cursor-ring.is-hover {
+  border-color: rgba(212, 168, 67, 0.75); /* 金环 */
+  box-shadow:
+    0 0 18px rgba(212, 168, 67, 0.75),
+    0 0 40px rgba(212, 168, 67, 0.35),
+    0 0 70px rgba(212, 168, 67, 0.18),
+    inset 0 0 14px rgba(212, 168, 67, 0.45);
+}
+
+/* ============ 画中景点光点（借鉴 CGTN《The Song Painted》） ============ */
+.detail-spots {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+}
+.detail-spot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+}
+.detail-dot {
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+/* 呼吸光点：暖白核 + 金色柔光扩散圈 */
+.detail-dot-core {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(255, 248, 225, 0.95);
+  box-shadow:
+    0 0 6px rgba(255, 248, 225, 0.9),
+    0 0 14px rgba(212, 168, 67, 0.6);
+  animation: spot-breathe 2.6s ease-in-out infinite;
+}
+.detail-dot::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 168, 67, 0.5);
+  animation: spot-ring 2.6s ease-out infinite;
+}
+@keyframes spot-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.25); opacity: 1; }
+}
+@keyframes spot-ring {
+  0% { transform: scale(0.55); opacity: 0.8; }
+  70% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+.detail-dot:hover .detail-dot-core,
+.detail-dot.on .detail-dot-core {
+  background: #fff;
+  transform: scale(1.35);
+  animation: none;
+}
+.detail-dot:hover::after,
+.detail-dot.on::after {
+  animation: none;
+  opacity: 1;
+  transform: scale(1);
+  border-color: rgba(212, 168, 67, 0.9);
+  background: radial-gradient(circle, rgba(212, 168, 67, 0.18), transparent 65%);
+}
+/* 讲解牌小卡：无重底框，纸色微光衬可读 */
+.detail-card {
+  position: absolute;
+  left: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: max-content;
+  max-width: 220px;
+  padding: 10px 14px;
+  background: rgba(28, 24, 18, 0.82);
+  border: 1px solid rgba(212, 168, 67, 0.35);
+  border-radius: 4px;
+  backdrop-filter: blur(3px);
+  pointer-events: none;
+  animation: card-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 7;
+}
+.detail-card.flip-x { left: auto; right: 26px; }
+.detail-card.flip-y { top: calc(100% + 14px); transform: none; }
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(calc(-50% + 6px)); }
+  to { opacity: 1; transform: translateY(-50%); }
+}
+.detail-card.flip-y { animation-name: card-in-y; }
+@keyframes card-in-y {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.detail-card-name {
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  color: var(--accent, #d4a843);
+  margin: 0 0 4px;
+}
+.detail-card-note {
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: rgba(240, 232, 214, 0.92);
+  margin: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .detail-dot-core, .detail-dot::after { animation: none; }
+}
+
+/* ============ 卷轴式站名指示（ScrollMileage） ============ */
+/* 平时收成一根短卷轴（上下轴杆相贴），悬浮/点按向下展开露出经名与进度 */
+.scroll-mileage {
+  position: fixed;
+  right: 1.5rem;
+  top: 4.5rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+/* 轴杆：深木色圆杆 + 上下轴头凸出 */
+.sm-rod {
+  position: relative;
+  width: 14px;
+  height: 9px;
+  border-radius: 4px;
+  background: linear-gradient(to right, #2c2620, #4a4038 45%, #2c2620);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: 2;
+}
+.sm-rod::before,
+.sm-rod::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, #8a7a5c, #c9b98f 50%, #8a7a5c);
+}
+.sm-rod::before { top: -4px; }
+.sm-rod::after { bottom: -4px; }
+/* 纸面：高度 0 → 展开；内容固定高度，展开不重排 */
+.sm-paper {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.55s cubic-bezier(0.65, 0, 0.35, 1), margin 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+  margin: 0 -1px;
+  background: linear-gradient(to bottom, #efe6d3, #e7dcc4);
+  border-left: 1px solid rgba(58, 49, 40, 0.5);
+  border-right: 1px solid rgba(58, 49, 40, 0.5);
+  box-shadow: 0 2px 10px rgba(40, 32, 22, 0.18);
+}
+.scroll-mileage.open .sm-paper {
+  height: 168px;
+  margin: 5px -1px;
+}
+.sm-content {
+  width: 92px;
+  height: 168px;
+  padding: 12px 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  writing-mode: vertical-rl; /* 竖排，与全站题跋一致 */
+  letter-spacing: 0.22em;
+}
+.sm-jing {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink, #3a3128);
+  font-weight: 700;
+}
+.sm-tagline {
+  margin: 0;
+  font-size: 0.68rem;
+  color: rgba(58, 49, 40, 0.65);
+}
+.sm-divider {
+  width: 1px;
+  height: 14px;
+  margin: 6px 0;
+  background: linear-gradient(to bottom, transparent, rgba(58, 49, 40, 0.45), transparent);
+}
+.sm-seg {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--accent, #c0392b);
+}
+.sm-progress {
+  margin: 0;
+  font-size: 0.62rem;
+  color: rgba(58, 49, 40, 0.55);
+}
+/* 展开时轴杆向上下让开 */
+.scroll-mileage.open .sm-rod.top { transform: translateY(-6px); }
+.scroll-mileage.open .sm-rod.bottom { transform: translateY(6px); }
+@media (prefers-reduced-motion: reduce) {
+  .sm-paper, .sm-rod { transition: none; }
+}
