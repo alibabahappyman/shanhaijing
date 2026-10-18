@@ -1,0 +1,153 @@
+.hai-page .hai-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(500px, .95fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 95px);
+  padding-top: 31px;
+  padding-bottom: 31px;
+}
+
+.hai-intro-copy { min-width: 0; animation: hai-volume-reveal .55s ease both; }
+
+.hai-volume-index {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  padding: 18px 33px 16px;
+  border: 1px solid rgba(162, 130, 91, .34);
+  border-radius: 8px;
+  background: radial-gradient(ellipse at 100% 0%, rgba(123, 161, 151, .1), transparent 40%), rgba(250, 245, 234, .47);
+  box-shadow: inset 0 0 0 5px rgba(255, 251, 242, .35);
+  animation: hai-volume-reveal .6s .08s ease both;
+}
+
+.hai-volume-ornament {
+  position: absolute;
+  z-index: -1;
+  width: 115px;
+  height: 90px;
+  color: #77958b;
+  opacity: .4;
+  pointer-events: none;
+}
+
+.hai-volume-ornament--left { top: -14px; left: -19px; transform: rotate(-4deg); }
+.hai-volume-ornament--right { right: -19px; bottom: -13px; transform: rotate(176deg); color: #b07557; }
+
+.hai-volume-head,
+.hai-volume-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.hai-volume-head { margin: 0 17px 11px; }
+.hai-volume-head span { color: #605344; font-size: 13px; letter-spacing: .24em; }
+.hai-volume-head small { color: #aa9278; font-family: Georgia, serif; font-size: 10px; letter-spacing: .2em; white-space: nowrap; }
+
+.hai-volume-index nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px 12px;
+}
+
+.hai-volume-index nav button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 42px;
+  padding: 5px 9px;
+  border: 0;
+  border-left: 2px solid transparent;
+  border-radius: 2px;
+  color: #746654;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: color .25s ease, background .25s ease, border-color .25s ease;
+}
+
+.hai-volume-index nav button::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at 22% 50%, color-mix(in srgb, var(--chapter-accent) 14%, transparent), transparent 72%);
+  opacity: 0;
+  transform: scaleX(.62);
+  transform-origin: left;
+  transition: opacity .35s ease, transform .35s ease;
+  content: '';
+}
+
+.hai-volume-index nav button:hover::before,
+.hai-volume-index nav button:focus-visible::before { opacity: 1; transform: scaleX(1); }
+.hai-volume-index nav button:hover { color: var(--chapter-accent); }
+
+.hai-volume-index nav button.is-current {
+  border-left-color: var(--chapter-accent);
+  color: var(--chapter-accent);
+  background: rgba(255, 250, 240, .72);
+}
+
+.hai-volume-index nav button b {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: #96856c;
+  background: #f2ead9;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.hai-volume-index nav button.is-current b { border-color: var(--chapter-accent); color: #fff9ed; background: var(--chapter-accent); }
+.hai-volume-index nav button span { overflow: hidden; font-size: 14px; letter-spacing: .13em; text-overflow: ellipsis; white-space: nowrap; }
+.hai-volume-index nav button em { margin-left: auto; color: #b19e86; font-family: Georgia, serif; font-size: 10px; font-style: normal; }
+.hai-volume-index nav button:focus-visible { outline: 2px solid var(--chapter-accent); outline-offset: 2px; }
+
+.hai-volume-foot { margin: 12px 17px 0; color: #9c8a73; font-size: 10px; letter-spacing: .14em; }
+.hai-volume-foot-mobile { display: none; }
+.hai-volume-foot b { color: var(--chapter-accent); font-size: 12px; font-weight: 400; white-space: nowrap; }
+
+@keyframes hai-volume-reveal { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 1100px) {
+  .hai-page .hai-intro { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .hai-volume-index { max-width: 100%; }
+}
+
+@media (max-width: 760px) {
+  .hai-page .hai-intro { display: grid; gap: 20px; padding: 27px 20px 22px; }
+  .hai-volume-index { margin: 0 -5px; padding: 14px 10px 13px; overflow: hidden; }
+  .hai-volume-ornament { width: 75px; height: 59px; opacity: .3; }
+  .hai-volume-head { margin: 0 10px 8px; }
+  .hai-volume-head span { font-size: 11px; }
+  .hai-volume-index nav { display: flex; gap: 0; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; }
+  .hai-volume-index nav::-webkit-scrollbar { display: none; }
+  .hai-volume-index nav button { flex: 0 0 127px; gap: 6px; min-height: 47px; padding: 5px 6px; scroll-snap-align: center; }
+  .hai-volume-index nav button b { width: 23px; height: 23px; font-size: 11px; }
+  .hai-volume-index nav button span { font-size: 11px; letter-spacing: .02em; }
+  .hai-volume-index nav button em { display: none; }
+  .hai-volume-foot { margin: 9px 10px 0; }
+  .hai-volume-foot-desktop { display: none; }
+  .hai-volume-foot-mobile { display: inline; }
+  .hai-volume-foot b { font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hai-intro-copy, .hai-volume-index { animation: none; }
+}
+
+/* —— English mode: Latin display title font, tighter tracking, no clipped labels —— */
+html[lang='en'] .hai-volume-head span{font-family:'JacquesFrancois',Georgia,serif;font-weight:700;letter-spacing:.03em}
+html[lang='en'] .hai-volume-index nav button span{letter-spacing:.02em}
+html[lang='en'] .hai-volume-index nav button em,
+html[lang='en'] .hai-volume-head small{letter-spacing:.08em}
+html[lang='en'] .hai-volume-foot,
+html[lang='en'] .hai-volume-foot b{letter-spacing:.03em}

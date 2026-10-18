@@ -1,0 +1,10 @@
+/* 语言切换按钮：与背景音乐按钮同规格的圆形徽标，右上角 */
+.lang-widget { position: fixed; z-index: 210; top: 16px; right: 16px; }
+.lang-widget--right-bottom-offset { top: 16px; }
+.lang-toggle { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgba(139, 105, 63, .55); border-radius: 50%; background: rgba(250, 242, 218, .92); color: #7a5c38; font: 13px Georgia, serif; letter-spacing: .05em; cursor: pointer; box-shadow: 0 5px 15px rgba(57, 44, 23, .22); transition: transform .2s, background .2s, color .2s; }
+.lang-toggle:hover { transform: translateY(-2px); background: #fff0d2; }
+.lang-toggle:focus-visible { outline: 2px solid #9d4d35; outline-offset: 3px; }
+.lang-toggle .lang-zh, .lang-toggle .lang-en { display: none; line-height: 1; }
+.lang-toggle[data-lang='zh'] .lang-en { display: block; } /* 中文界面 → 显示可切到 EN */
+.lang-toggle[data-lang='en'] .lang-zh { display: block; font-family: 'Noto Serif SC', SimSun, serif; font-size: 15px; }
+.lang-toggle.is-active { color: #a4452e; border-color: #a4452e; }

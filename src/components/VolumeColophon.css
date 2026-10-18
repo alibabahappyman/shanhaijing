@@ -1,0 +1,133 @@
+.volume-colophon {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #eee4d1;
+  color: #392f26;
+  text-align: left;
+  isolation: isolate;
+}
+
+.volume-colophon-landscape {
+  position: absolute;
+  inset: 0 0 0 27%;
+  background-size: cover;
+  background-position: center;
+  opacity: .72;
+  transform: scale(1.09) translateX(3%);
+  transition: transform 2.1s cubic-bezier(.16,1,.3,1), opacity 1.3s ease;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 34%);
+}
+.volume-colophon.is-active .volume-colophon-landscape { transform: scale(1) translateX(0); opacity: .86; }
+.volume-colophon-paper {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #f1e7d4 0%, rgba(241,231,212,.98) 27%, rgba(241,231,212,.82) 46%, rgba(241,231,212,.1) 80%),
+    linear-gradient(0deg, rgba(239,229,208,.85), transparent 23%, transparent 80%, rgba(239,229,208,.55));
+  pointer-events: none;
+}
+.volume-colophon::after {
+  content: '';
+  position: absolute;
+  inset: clamp(16px,2.5vw,38px);
+  border: 1px solid rgba(133,106,72,.22);
+  pointer-events: none;
+}
+.volume-colophon-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: min(690px, 62vw);
+  height: 100%;
+  padding: clamp(112px,15vh,170px) 0 clamp(60px,8vh,100px) clamp(55px,7.5vw,150px);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .9s ease .12s, transform 1s cubic-bezier(.16,1,.3,1) .12s;
+}
+.volume-colophon.is-active .volume-colophon-content { opacity: 1; transform: none; }
+.volume-colophon-overline {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: clamp(20px,4vh,45px);
+  color: var(--colophon-accent);
+  font-size: 11px;
+  letter-spacing: .28em;
+}
+.volume-colophon-overline i { width: 38px; height: 1px; background: currentColor; opacity: .55; }
+.volume-colophon-heading { display: flex; align-items: center; gap: clamp(17px,2.8vw,42px); }
+.volume-colophon-volume {
+  padding-right: 14px;
+  border-right: 1px solid rgba(128,97,66,.38);
+  writing-mode: vertical-rl;
+  font-size: clamp(15px,1.4vw,22px);
+  letter-spacing: .4em;
+  color: var(--colophon-accent);
+}
+.volume-colophon-kicker { margin-bottom: 14px; color: #937b60; font-size: 11px; letter-spacing: .28em; }
+.volume-colophon-heading h2 {
+  font-family: 'TitleFont','Noto Serif SC','Songti SC',serif;
+  font-weight: 500;
+  font-size: clamp(48px,5.4vw,89px);
+  letter-spacing: .12em;
+  white-space: nowrap;
+  line-height: 1.15;
+}
+.volume-colophon-subtitle { margin-top: 17px; color: #786a56; font-size: clamp(13px,1.25vw,17px); letter-spacing: .28em; }
+.volume-colophon-itinerary { display: flex; align-items: center; gap: 15px; width: min(100%,560px); margin-top: clamp(30px,6vh,68px); color: #6c5a45; font-size: 12px; letter-spacing: .1em; white-space: nowrap; }
+.volume-colophon-track { position: relative; display: flex; flex: 1; align-items: center; justify-content: space-between; min-width: 50px; height: 16px; }
+.volume-colophon-track::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(131,98,59,.35); transform-origin: left; transform: scaleX(0); transition: transform 1.6s cubic-bezier(.16,1,.3,1) .35s; }
+.volume-colophon.is-active .volume-colophon-track::before { transform: scaleX(1); }
+.volume-colophon-track i { position: relative; z-index: 1; width: 4px; height: 4px; border-radius: 50%; background: #a78b67; opacity: 0; transform: scale(.5); transition: opacity .35s ease, transform .35s ease; }
+.volume-colophon.is-active .volume-colophon-track i { opacity: 1; transform: scale(1); }
+.volume-colophon-track i.is-last { width: 9px; height: 9px; background: var(--colophon-accent); box-shadow: 0 0 0 4px rgba(160,105,66,.16); }
+.volume-colophon-note { max-width: 490px; margin-top: clamp(22px,4vh,41px); color: #5f5549; font-size: clamp(14px,1.25vw,18px); line-height: 1.85; letter-spacing: .08em; }
+.volume-colophon-quote { max-width: 550px; margin-top: 16px; padding-left: 15px; border-left: 2px solid var(--colophon-accent); color: #8a7965; font-size: 11px; line-height: 1.9; letter-spacing: .04em; }
+.volume-colophon-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 15px 25px; margin-top: auto; padding-top: 22px; }
+.volume-colophon-actions a, .volume-colophon-actions button { color: #5e4c3c; text-decoration: none; border: 0; border-bottom: 1px solid rgba(102,77,54,.43); background: transparent; padding: 9px 0; font: inherit; font-size: 12px; letter-spacing: .08em; cursor: pointer; transition: color .25s, border-color .25s, transform .25s; }
+.volume-colophon-actions a:hover, .volume-colophon-actions button:hover { color: var(--colophon-accent); border-color: currentColor; transform: translateY(-2px); }
+.volume-colophon-actions a:focus-visible, .volume-colophon-actions button:focus-visible { outline: 1px solid var(--colophon-accent); outline-offset: 4px; }
+.volume-colophon-actions .volume-colophon-next { display: flex; gap: 12px; align-items: center; color: var(--colophon-accent); border-color: currentColor; }
+.volume-colophon-next span { font-size: 16px; }
+.volume-colophon-next b { font-size: 16px; font-weight: 400; }
+.volume-colophon-stamp { position: absolute; right: clamp(58px,8vw,160px); bottom: clamp(70px,11vh,120px); z-index: 1; display: grid; place-items: center; width: clamp(65px,7vw,105px); height: clamp(65px,7vw,105px); border: 3px solid var(--colophon-accent); color: var(--colophon-accent); font-size: clamp(21px,2.4vw,34px); line-height: .85; letter-spacing: 0; transform: rotate(-12deg) scale(1.45); opacity: 0; transition: transform .46s cubic-bezier(.2,.8,.2,1) .65s, opacity .35s ease .65s; }
+.volume-colophon.is-active .volume-colophon-stamp { transform: rotate(-8deg) scale(1); opacity: .7; }
+.volume-colophon-side { position: absolute; right: clamp(25px,4vw,65px); top: 25%; z-index: 1; writing-mode: vertical-rl; font-size: 10px; letter-spacing: .42em; color: rgba(88,67,43,.64); }
+
+@media (max-width: 800px) {
+  .volume-colophon-landscape { inset: 0; background-position: 58% center; mask-image: linear-gradient(0deg,transparent 4%,#000 34%,#000 55%,transparent 85%); opacity: .52; }
+  .volume-colophon-paper { background: linear-gradient(0deg,rgba(241,231,212,.9) 0%,rgba(241,231,212,.24) 35%,rgba(241,231,212,.82) 76%,#f1e7d4); }
+  .volume-colophon-content { width: 100%; padding: 103px 44px 54px; }
+  .volume-colophon-heading h2 { font-size: clamp(44px,8vw,65px); }
+  .volume-colophon-itinerary { margin-top: 38px; }
+  .volume-colophon-stamp { right: 52px; bottom: 145px; opacity: .4; }
+  .volume-colophon-side { display: none; }
+}
+@media (max-width: 560px) {
+  .volume-colophon::after { inset: 12px; }
+  .volume-colophon-content { padding: 91px 30px 33px; }
+  .volume-colophon-overline { margin-bottom: 18px; font-size: 9px; }
+  .volume-colophon-heading { gap: 14px; }
+  .volume-colophon-volume { font-size: 14px; }
+  .volume-colophon-heading h2 { font-size: clamp(36px,10.5vw,53px); }
+  .volume-colophon-kicker { margin-bottom: 10px; font-size: 9px; }
+  .volume-colophon-subtitle { margin-top: 10px; font-size: 11px; }
+  .volume-colophon-itinerary { gap: 8px; margin-top: 30px; font-size: 10px; }
+  .volume-colophon-note { margin-top: 24px; font-size: 13px; }
+  .volume-colophon-quote { font-size: 10px; }
+  .volume-colophon-actions { gap: 3px 17px; padding-top: 20px; }
+  .volume-colophon-actions a, .volume-colophon-actions button { font-size: 11px; }
+  .volume-colophon-next span { font-size: 14px; }
+  .volume-colophon-stamp { right: 35px; bottom: 155px; width: 53px; height: 53px; border-width: 2px; font-size: 18px; }
+}
+@media (max-height: 700px) and (min-width: 801px) {
+  .volume-colophon-content { padding-top: 90px; padding-bottom: 40px; }
+  .volume-colophon-overline { margin-bottom: 15px; }
+  .volume-colophon-itinerary { margin-top: 24px; }
+  .volume-colophon-note { margin-top: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .volume-colophon-landscape, .volume-colophon-content, .volume-colophon-track::before, .volume-colophon-track i, .volume-colophon-stamp { transition: none; }
+}

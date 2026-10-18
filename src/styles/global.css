@@ -1,8 +1,8 @@
 :root {
   --paper: #efe6d5;
   --paper-dark: #e5d9c3;
-  --ink: #3a3128;
-  --ink-light: #7a6f5f;
+  --ink: #332b22;
+  --ink-light: #5c5244;
   --accent: #c0392b;
   --sea-from: #efe6d5;
   --sea-to: #7a8b99;
@@ -16,6 +16,23 @@
 }
 
 /* 不设 html { scroll-behavior: smooth }：与手势驱动的 gsap 补间互相拉扯会导致卡死 */
+
+/* 标题字体：titlefont.ttf 放在 public/ 下，经各页大标题使用 */
+@font-face {
+  font-family: 'TitleFont';
+  src: url('/titlefont.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* 英文标题字体：Jacques Francois（webfonts 拷贝至 public/fonts/） */
+@font-face {
+  font-family: 'JacquesFrancois';
+  src: url('/fonts/JacquesFrancois-Regular.woff2') format('woff2'),
+    url('/fonts/JacquesFrancois-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 body {
   background: var(--paper);
@@ -160,7 +177,7 @@ body {
   margin-bottom: 1.4rem;
 }
 
-.scene-beast .beast-card {
+.scene-beast .beast-entry-card {
   margin: 0;
 }
 
@@ -171,6 +188,7 @@ body {
 }
 
 .hero-scene h1 {
+  font-family: 'TitleFont', 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
   font-size: clamp(3rem, 8vw, 6rem);
   letter-spacing: 0.3em;
   text-indent: 0.3em;
@@ -196,6 +214,19 @@ body {
   color: var(--ink-light);
   letter-spacing: 0.5em;
   text-indent: 0.5em;
+}
+
+.hero-editorial-intro {
+  max-width: min(36rem, 78vw);
+  white-space: pre-line;
+  font-size: clamp(0.88rem, 1.3vw, 1rem);
+  line-height: 2.15;
+  letter-spacing: 0.13em;
+  color: var(--ink-light);
+  padding: 1.1rem 2.2rem;
+  border-top: 1px solid rgba(132, 100, 56, 0.38);
+  border-bottom: 1px solid rgba(132, 100, 56, 0.23);
+  background: linear-gradient(90deg, transparent, rgba(239, 230, 213, 0.68) 18%, rgba(239, 230, 213, 0.68) 82%, transparent);
 }
 
 .finale-scene {
@@ -330,7 +361,7 @@ body {
   gap: 1rem;
 }
 
-.seg-panel .beast-card {
+.seg-panel .beast-entry-card {
   margin: 0;
   max-width: none;
 }
@@ -373,7 +404,8 @@ body {
 }
 
 .beast-spot img {
-  width: clamp(90px, 12vw, 150px);
+  /* 尺寸由数据层 --beast-size 下发（artLayout.js），未配置时退回默认 */
+  width: var(--beast-size, clamp(90px, 12vw, 150px));
   height: auto;
   mix-blend-mode: multiply; /* 与宣纸底相融，和 motion-layer 同款处理 */
   filter: drop-shadow(0 2px 6px rgba(58, 49, 40, 0.2));
@@ -420,12 +452,31 @@ body {
   transform: translateX(-50%);
   z-index: 61;
   width: min(360px, 86vw);
-  background: rgba(255, 252, 245, 0.95);
-  border: 1px solid rgba(185, 58, 38, 0.4);
-  border-left: 3px solid var(--accent);
-  padding: 1.4rem 1.6rem;
-  box-shadow: 0 14px 40px rgba(36, 34, 30, 0.18);
+  max-height: min(80svh, 650px);
+  overflow-y: auto;
+  background: linear-gradient(145deg, rgba(255, 253, 246, 0.96), rgba(240, 231, 212, 0.97));
+  border: 1px solid rgba(117, 93, 58, 0.53);
+  border-radius: 2px;
+  padding: 1.5rem 1.8rem;
+  box-shadow: 0 20px 56px rgba(38, 29, 17, 0.24), 0 0 0 4px rgba(249, 241, 221, 0.55), inset 0 0 0 7px rgba(255, 253, 246, 0.3);
+  backdrop-filter: blur(9px);
   animation: beast-pop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.beast-popup::before {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgba(129, 103, 64, 0.2);
+  pointer-events: none;
+}
+.beast-popup::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 1.8rem;
+  width: 42px;
+  height: 2px;
+  background: var(--accent);
 }
 
 @keyframes beast-pop {
@@ -435,15 +486,16 @@ body {
 
 .beast-popup-kicker {
   font-size: 0.72rem;
-  letter-spacing: 0.35em;
-  color: var(--gold);
-  margin-bottom: 0.4rem;
+  letter-spacing: 0.29em;
+  color: #987647;
+  margin-bottom: 0.55rem;
 }
 
 .beast-popup-name {
-  font-size: 1.5rem;
+  font-size: 1.55rem;
+  font-weight: 400;
   letter-spacing: 0.2em;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.85rem;
 }
 
 .beast-popup-img {
@@ -462,6 +514,8 @@ body {
   perspective: 900px;
   perspective-origin: 50% 45%;
 }
+.beast-carousel.single { height: 210px; }
+.beast-carousel.single .beast-card { width: 185px; left: calc(50% - 92.5px); }
 
 .beast-card {
   position: absolute;
@@ -483,8 +537,13 @@ body {
   object-fit: contain;
   display: block;
   mix-blend-mode: multiply;
-  border-radius: 4px;
+  border: 1px solid rgba(122, 100, 67, 0.26);
+  border-radius: 2px;
+  background: rgba(255, 252, 242, 0.54);
+  box-shadow: 0 8px 22px rgba(58, 45, 26, 0.1);
 }
+.beast-carousel.single .beast-card img,
+.beast-carousel.single .beast-carousel-placeholder { aspect-ratio: 1 / 1; }
 
 .beast-card.center {
   --x: 0px;
@@ -513,18 +572,31 @@ body {
   transform: translateY(26px) translateZ(-40px) rotateY(-26deg) scale(0.68);
 }
 
-/* 静图未生成时的占位卡：宣纸底 + 朱砂"兽"字虚线框 */
+/* 尚未补齐的图集卡位：宣纸底与细金线，清楚标记待补图片 */
 .beast-carousel-placeholder {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 252, 245, 0.9);
-  border: 1px dashed rgba(185, 58, 38, 0.35);
+  gap: 0.8rem;
+  background: linear-gradient(155deg, #f8f3e8, #e9dfcc);
+  border: 1px solid rgba(129, 103, 64, 0.47);
+  box-shadow: inset 0 0 0 5px rgba(255, 253, 246, 0.42), 0 8px 22px rgba(58, 45, 26, 0.1);
 }
 
-.beast-carousel-placeholder span {
-  font-size: 2.4rem;
-  color: rgba(185, 58, 38, 0.45);
+.beast-placeholder-mark {
+  font-size: 2.1rem;
+  font-variant-numeric: lining-nums;
+  letter-spacing: 0.08em;
+  color: rgba(103, 75, 41, 0.82);
+}
+
+.beast-placeholder-label {
+  border-top: 1px solid rgba(129, 103, 64, 0.38);
+  padding-top: 0.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  color: #6e5839;
 }
 
 .beast-carousel-arrow {
@@ -583,7 +655,9 @@ body {
 .beast-popup-quote {
   font-size: 0.88rem;
   line-height: 1.9;
-  color: var(--ink-light);
+  color: #544b3d;
+  border-top: 1px solid rgba(111, 94, 67, 0.25);
+  padding-top: 0.9rem;
 }
 
 .beast-popup-hint {
@@ -592,6 +666,7 @@ body {
   color: var(--ink-light);
   opacity: 0.6;
   letter-spacing: 0.2em;
+  text-align: right;
 }
 
 /* ---------- 场景文字面板位置变体：让开主山构图 ---------- */
@@ -634,6 +709,8 @@ body {
 }
 
 .scene-col-title {
+  font-family: 'TitleFont', 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
+  font-weight: 400;
   font-size: clamp(1.6rem, 3.2vw, 2.4rem);
   letter-spacing: 0.22em;
   color: var(--ink);
@@ -892,6 +969,7 @@ body {
 
 
 .hero h1 {
+  font-family: 'TitleFont', 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
   font-size: clamp(3rem, 8vw, 6rem);
   letter-spacing: 0.3em;
   text-indent: 0.3em;
@@ -925,11 +1003,12 @@ body {
   top: 1.2rem;
   left: 1.2rem;
   z-index: 100;
-  background: rgba(239, 230, 213, 0.85);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(58, 49, 40, 0.25);
-  padding: 0.6rem;
-  border-radius: 4px;
+  background: linear-gradient(145deg, rgba(255, 252, 243, 0.93), rgba(235, 224, 201, 0.88));
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(116, 94, 64, 0.4);
+  box-shadow: 0 7px 24px rgba(49, 37, 22, 0.11), inset 0 0 0 3px rgba(255, 253, 245, 0.4);
+  padding: 0.7rem;
+  border-radius: 2px;
 }
 
 .mini-overview svg {
@@ -1072,36 +1151,37 @@ body {
 }
 
 /* ---------- 图鉴卡 ---------- */
-.beast-card {
+.beast-entry-card {
   display: flex;
   gap: 1.2rem;
   align-items: center;
   background: rgba(255, 252, 245, 0.9);
-  border: 1px solid rgba(58, 49, 40, 0.3);
+  border: 1px solid rgba(112, 92, 60, 0.35);
+  border-radius: 2px;
   padding: 1rem 1.4rem;
   max-width: 420px;
   margin: 2.5rem auto;
-  box-shadow: 3px 4px 0 rgba(58, 49, 40, 0.12);
+  box-shadow: 0 9px 27px rgba(58, 43, 25, 0.1), inset 0 0 0 4px rgba(255, 253, 246, 0.4);
   transform: rotate(-1.2deg) translateY(40px);
   opacity: 0;
   transition: transform 0.8s ease, opacity 0.8s ease;
 }
 
-.beast-card:nth-child(even) {
+.beast-entry-card:nth-child(even) {
   transform: rotate(1.2deg) translateY(40px);
 }
 
-.beast-card.visible {
+.beast-entry-card.visible {
   transform: rotate(-1.2deg) translateY(0);
   opacity: 1;
 }
 
-.beast-card:nth-child(even).visible {
+.beast-entry-card:nth-child(even).visible {
   transform: rotate(1.2deg) translateY(0);
 }
 
-.beast-card img,
-.beast-card .img-placeholder {
+.beast-entry-card img,
+.beast-entry-card .img-placeholder {
   width: 96px;
   height: 96px;
   flex-shrink: 0;
@@ -1115,13 +1195,13 @@ body {
   background: var(--paper-dark);
 }
 
-.beast-card .beast-name {
+.beast-entry-card .beast-name {
   font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: 0.15em;
 }
 
-.beast-card .beast-quote {
+.beast-entry-card .beast-quote {
   font-size: 0.85rem;
   color: var(--ink-light);
   margin-top: 0.3rem;
@@ -1369,15 +1449,25 @@ body {
   top: 50%;
   transform: translateY(-50%);
   width: max-content;
-  max-width: 220px;
-  padding: 10px 14px;
-  background: rgba(28, 24, 18, 0.82);
-  border: 1px solid rgba(212, 168, 67, 0.35);
-  border-radius: 4px;
-  backdrop-filter: blur(3px);
+  max-width: 235px;
+  padding: 13px 17px 14px 19px;
+  background: rgba(39, 34, 27, 0.9);
+  border: 1px solid rgba(214, 181, 111, 0.66);
+  border-radius: 1px;
+  box-shadow: 0 11px 31px rgba(24, 19, 13, 0.28), inset 0 0 0 3px rgba(238, 218, 170, 0.08);
+  backdrop-filter: blur(8px);
   pointer-events: none;
   animation: card-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 7;
+}
+.detail-card::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  bottom: 9px;
+  left: 0;
+  width: 2px;
+  background: #cbaa69;
 }
 .detail-card.flip-x { left: auto; right: 26px; }
 .detail-card.flip-y { top: calc(100% + 14px); transform: none; }
@@ -1391,16 +1481,31 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 .detail-card-name {
-  font-size: 0.82rem;
+  font-size: 0.83rem;
   letter-spacing: 0.14em;
-  color: var(--accent, #d4a843);
-  margin: 0 0 4px;
+  color: #e2c58a;
+  margin: 0 0 6px;
 }
 .detail-card-note {
   font-size: 0.78rem;
-  line-height: 1.7;
-  color: rgba(240, 232, 214, 0.92);
+  line-height: 1.75;
+  color: #efe9da;
   margin: 0;
+}
+@media (max-width: 760px) {
+  .detail-card, .detail-card.flip-x {
+    left: 50%;
+    right: auto;
+    top: 50%;
+    width: min(200px, 58vw);
+    max-width: min(200px, 58vw);
+    transform: translate(-50%, -50%);
+    animation: none;
+  }
+  .detail-card.flip-y, .detail-card.flip-x.flip-y {
+    top: calc(100% + 12px);
+    transform: translateX(-50%);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .detail-dot-core, .detail-dot::after { animation: none; }
@@ -1472,13 +1577,13 @@ body {
 .sm-jing {
   margin: 0;
   font-size: 0.95rem;
-  color: var(--ink, #3a3128);
+  color: var(--ink, #332b22);
   font-weight: 700;
 }
 .sm-tagline {
   margin: 0;
   font-size: 0.68rem;
-  color: rgba(58, 49, 40, 0.65);
+  color: rgba(51, 43, 34, 0.8);
 }
 .sm-divider {
   width: 1px;
@@ -1494,7 +1599,7 @@ body {
 .sm-progress {
   margin: 0;
   font-size: 0.62rem;
-  color: rgba(58, 49, 40, 0.55);
+  color: rgba(51, 43, 34, 0.72);
 }
 /* 展开时轴杆向上下让开 */
 .scroll-mileage.open .sm-rod.top { transform: translateY(-6px); }

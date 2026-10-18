@@ -1,0 +1,334 @@
+/* The map label stays brief; the full account lives in the reading panel. */
+.hai-node-popover {
+  z-index: 8;
+  width: min(288px, 64vw);
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+  padding: 14px 18px 13px;
+  border: 1px solid color-mix(in srgb, var(--chapter-accent) 49%, #c4ad86);
+  border-radius: 11px;
+  background: rgba(249, 242, 225, .89);
+  box-shadow: 0 14px 35px rgba(27, 32, 27, .25), inset 0 0 0 5px rgba(255, 250, 238, .24);
+  -webkit-backdrop-filter: blur(13px) saturate(1.13);
+  backdrop-filter: blur(13px) saturate(1.13);
+  pointer-events: none;
+  animation: hai-label-reveal .24s ease both;
+}
+.hai-node-popover::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(151, 124, 84, .24);
+  border-radius: 6px;
+  pointer-events: none;
+}
+.hai-node-popover strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--chapter-accent);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: .16em;
+}
+.hai-node-popover-line {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  color: #514a3f;
+  font-size: 12px;
+  line-height: 1.7;
+  letter-spacing: .04em;
+}
+.hai-node-popover small {
+  display: block;
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid rgba(144, 113, 72, .27);
+  color: #907959;
+  font-size: 10px;
+  letter-spacing: .12em;
+}
+.hai-map-node.is-popover-below .hai-node-popover { top: calc(100% + 13px); bottom: auto; }
+.hai-map-node.is-popover-below .hai-node-popover::before { top: -5px; bottom: auto; border: 1px solid #b99f78; border-right: 0; border-bottom: 0; }
+.hai-map-node.is-popover-left .hai-node-popover { left: 0; transform: translateX(-8%); }
+.hai-map-node.is-popover-right .hai-node-popover { left: auto; right: 0; transform: translateX(8%); }
+.hai-map-node.is-popover-left .hai-node-popover::before { left: 18%; }
+.hai-map-node.is-popover-right .hai-node-popover::before { left: auto; right: 18%; }
+@keyframes hai-label-reveal { from { opacity: 0; margin-bottom: -5px; } to { opacity: 1; margin-bottom: 0; } }
+
+/* A light chart case: translucent paper, restrained line work and sea-cloud corners. */
+.hai-drawer-backdrop { background: rgba(20, 36, 36, .46); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
+.hai-modal {
+  width: min(980px, 100%);
+  max-height: min(86vh, 790px);
+  border: 1px solid rgba(139, 110, 72, .82);
+  border-radius: 20px;
+  background: linear-gradient(130deg, rgba(255, 250, 238, .94), rgba(241, 231, 209, .91) 70%), rgba(246, 237, 218, .9);
+  box-shadow: 0 27px 82px rgba(17, 29, 29, .34), inset 0 0 0 4px rgba(255, 251, 242, .38);
+  -webkit-backdrop-filter: blur(19px) saturate(1.06);
+  backdrop-filter: blur(19px) saturate(1.06);
+  isolation: isolate;
+}
+.hai-modal::before { inset: 12px; border: 1px solid rgba(140, 112, 73, .28); border-radius: 10px; z-index: 3; }
+.hai-modal-ornaments { position: absolute; inset: 0; z-index: 4; pointer-events: none; color: var(--chapter-accent); }
+.hai-modal-corner { position: absolute; width: 78px; height: 78px; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; opacity: .48; }
+.hai-modal-corner--tl { left: 0; top: 0; }
+.hai-modal-corner--tr { right: 0; top: 0; transform: scaleX(-1); }
+.hai-modal-corner--bl { left: 0; bottom: 0; transform: scaleY(-1); }
+.hai-modal-corner--br { right: 0; bottom: 0; transform: scale(-1); }
+.hai-modal-heading {
+  z-index: 1;
+  min-height: 164px;
+  padding: 28px 64px 20px;
+  border-bottom: 1px solid rgba(126, 98, 62, .28);
+  background: radial-gradient(ellipse at 85% 0%, color-mix(in srgb, var(--chapter-accent) 8%, transparent), transparent 48%);
+}
+.hai-modal-heading::after { content: ''; position: absolute; left: 64px; right: 64px; bottom: -3px; height: 5px; background: linear-gradient(90deg, var(--chapter-accent) 0 10%, transparent 10% 100%); opacity: .65; }
+.hai-modal-heading h2 { margin: 9px 0 4px; font-family: 'TitleFont', 'Noto Serif SC', serif; font-size: clamp(29px, 3.1vw, 41px); line-height: 1.2; }
+.hai-modal-imprint { position: absolute; right: 110px; top: 45px; display: grid; place-items: center; width: 48px; height: 52px; border: 1px solid var(--chapter-accent); color: var(--chapter-accent); font-size: 14px; line-height: 1.15; text-align: center; transform: rotate(-7deg); opacity: .58; }
+.hai-modal-close { z-index: 5; top: 20px; right: 25px; width: 38px; height: 38px; background: rgba(255, 250, 239, .72); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); }
+.hai-modal-body { grid-template-columns: 202px minmax(0, 1fr); }
+.hai-tabs { position: relative; z-index: 1; justify-content: flex-start; gap: 11px; padding: 31px 18px 30px 32px; border-right: 1px solid rgba(136, 104, 63, .25); background: linear-gradient(90deg, rgba(228, 220, 200, .36), rgba(255, 251, 240, .13)); }
+.hai-tab,
+.hai-tab.is-active {
+  width: calc(100% - 14px);
+  min-height: 42px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  animation: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.hai-tab {
+  text-overflow: ellipsis;
+  border: 1px solid rgba(137, 108, 71, .52);
+  background: rgba(255, 250, 237, .46);
+  color: #776956;
+  opacity: .6;
+  transform: translateX(4px) scale(.94);
+  transform-origin: left center;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: width .32s ease, background .25s ease, color .25s ease, border-color .25s ease, box-shadow .32s ease, opacity .32s ease, transform .32s ease;
+}
+/* 悬停 / 选中：向左滑出并拉长，带阴影与轻微放大；宽度放开以完整显示文字 */
+.hai-tab:hover,
+.hai-tab.is-active {
+  width: calc(100% + 14px);
+  min-width: max-content;
+  overflow: visible;
+  opacity: 1;
+  transform: translateX(-14px) scale(1.04);
+  box-shadow: 0 12px 26px rgba(40, 48, 42, .22), 0 3px 8px rgba(40, 48, 42, .16);
+}
+.hai-tab:hover { border-color: var(--chapter-accent); background: rgba(255, 251, 241, .88); color: var(--chapter-accent); }
+.hai-tab.is-active { border-color: var(--chapter-accent); background: var(--chapter-accent); color: #fff8e8; box-shadow: inset 0 0 0 3px rgba(255, 250, 236, .17), 0 12px 26px rgba(51, 62, 56, .24); }
+.hai-tab:focus-visible { outline: 2px solid var(--chapter-accent); outline-offset: 3px; }
+.hai-modal-content { position: relative; z-index: 1; padding: 28px 52px 34px 34px; }
+.hai-fact-row { grid-template-columns: 6.6em minmax(0, 1fr); gap: 15px; padding: 11px 2px; border-bottom: 1px solid rgba(135, 103, 62, .2); }
+.hai-fact-row dt { font-size: 11.5px; }
+.hai-fact-row dd { font-size: 13px; }
+.hai-quote { border-radius: 9px; background: rgba(255, 251, 240, .48); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); }
+.hai-meaning { border-radius: 9px; background: rgba(255, 251, 240, .48); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); }
+
+.hai-page--inner .hai-modal { background: linear-gradient(130deg, rgba(253, 250, 240, .94), rgba(234, 240, 227, .89) 76%), rgba(245, 247, 232, .9); }
+.hai-page--outer .hai-modal { background: linear-gradient(130deg, rgba(255, 249, 237, .94), rgba(243, 232, 213, .89) 76%), rgba(246, 235, 216, .9); }
+
+@media (max-width: 760px) {
+  .hai-drawer-backdrop { padding: 13px; }
+  .hai-modal { max-height: min(88vh, 820px); border-radius: 16px; }
+  .hai-modal::before { inset: 7px; border-radius: 9px; }
+  .hai-modal-corner { width: 50px; height: 50px; }
+  .hai-modal-heading { min-height: 133px; padding: 23px 28px 16px; }
+  .hai-modal-heading::after { left: 28px; right: 28px; }
+  .hai-modal-heading h2 { font-size: 33px; }
+  .hai-modal-imprint { right: 76px; top: 52px; width: 31px; height: 35px; font-size: 9px; }
+  .hai-modal-close { top: 14px; right: 17px; width: 32px; height: 32px; font-size: 20px; }
+  .hai-modal-body { display: flex; flex-direction: column; }
+  .hai-tabs { display: flex; flex: none; flex-direction: row; justify-content: flex-start; overflow-x: auto; gap: 8px; padding: 14px 24px; border-right: 0; border-bottom: 1px solid rgba(136, 104, 63, .25); scrollbar-width: none; }
+  .hai-tabs::-webkit-scrollbar { display: none; }
+  .hai-tab, .hai-tab:hover, .hai-tab.is-active { width: auto; min-width: max-content; min-height: 37px; padding: 8px 13px; font-size: 11px; }
+  .hai-modal-content { flex: 1; min-height: 0; padding: 20px 29px 30px; }
+  .hai-fact-row { grid-template-columns: 5.5em minmax(0,1fr); gap: 11px; }
+  .hai-fact-row dt { font-size: 11px; }
+  .hai-fact-row dd { font-size: 12px; }
+  .hai-node-popover { width: min(245px, 69vw); padding: 12px 14px; }
+  .hai-node-popover strong { font-size: 13px; }
+  .hai-node-popover-line { font-size: 10px; }
+  .hai-node-popover small { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) { .hai-node-popover { animation: none; } }
+
+/* Translucent glass with a readable inner pane. The illustrated landscape remains visible behind it. */
+.hai-node-popover {
+  padding: 5px;
+  border: 1px solid rgba(255, 253, 242, .86);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 255, 252, .36), rgba(212, 229, 224, .19) 52%, rgba(250, 243, 223, .31));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .95), inset 0 0 18px rgba(255, 255, 255, .23), 0 13px 34px rgba(29, 35, 33, .27), 0 0 0 1px rgba(126, 137, 118, .24);
+  -webkit-backdrop-filter: blur(24px) saturate(1.26) brightness(1.08);
+  backdrop-filter: blur(24px) saturate(1.26) brightness(1.08);
+}
+.hai-node-popover::after { inset: 4px; border: 1px solid rgba(255, 255, 249, .54); border-radius: 13px; }
+.hai-node-popover::before { background: rgba(231, 239, 229, .88); border-color: rgba(255, 255, 245, .85); }
+.hai-node-popover-body {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 8px 12px 9px;
+  border-radius: 12px;
+  background: linear-gradient(130deg, rgba(253, 249, 236, .54), rgba(239, 244, 232, .43));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .57);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
+.hai-node-popover strong, .hai-node-popover-line, .hai-node-popover small { text-shadow: 0 1px 1px rgba(255, 255, 249, .72); }
+.hai-page--outer .hai-node-popover { background: linear-gradient(135deg, rgba(255, 252, 244, .38), rgba(229, 238, 236, .18) 52%, rgba(248, 228, 206, .27)); }
+
+/* Hand-painted frames stay behind the text; each entry supplies its own identifying seal. */
+.hai-modal {
+  background: linear-gradient(130deg, rgba(251, 247, 235, .66), rgba(237, 239, 226, .51) 72%);
+  -webkit-backdrop-filter: blur(27px) saturate(1.12);
+  backdrop-filter: blur(27px) saturate(1.12);
+}
+.hai-page--inner .hai-modal { background: linear-gradient(130deg, rgba(252, 250, 239, .68), rgba(230, 241, 229, .51) 73%); }
+.hai-page--outer .hai-modal { background: linear-gradient(130deg, rgba(255, 249, 237, .69), rgba(240, 230, 212, .51) 73%); }
+.hai-modal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background-image: url('/assets/hai/frame-inner-v2.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: .3;
+  pointer-events: none;
+}
+.hai-page--outer .hai-modal::after { background-image: url('/assets/hai/frame-outer-v2.png'); opacity: .28; }
+.hai-modal-ornaments { display: none; }
+.hai-modal-heading { background: linear-gradient(90deg, rgba(255, 252, 241, .44), rgba(255, 252, 241, .2) 70%); }
+.hai-modal-body { position: relative; z-index: 1; background: rgba(255, 252, 243, .24); }
+.hai-modal-content { background: rgba(255, 253, 246, .25); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
+.hai-tabs { background: rgba(245, 240, 225, .28); }
+.hai-modal-imprint {
+  top: 39px;
+  right: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  width: 54px;
+  height: 61px;
+  border: 1px solid var(--chapter-accent);
+  outline: 1px solid color-mix(in srgb, var(--chapter-accent) 32%, transparent);
+  outline-offset: -5px;
+  background: rgba(255, 252, 240, .23);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-size: 23px;
+  line-height: 1;
+  opacity: .67;
+}
+.hai-modal-imprint small { max-width: 48px; overflow: hidden; white-space: nowrap; font-size: 8px; letter-spacing: 0; }
+.hai-modal--water .hai-modal-imprint, .hai-modal--tide .hai-modal-imprint { border-radius: 34% 66% 46% 54%; }
+.hai-modal--tree .hai-modal-imprint, .hai-modal--mountain .hai-modal-imprint { border-radius: 3px 13px 3px 13px; }
+.hai-modal--serpent .hai-modal-imprint, .hai-modal--wing .hai-modal-imprint, .hai-modal--feather .hai-modal-imprint { transform: rotate(6deg); }
+.hai-modal--flame .hai-modal-imprint, .hai-modal--daynight .hai-modal-imprint, .hai-modal--ritual .hai-modal-imprint { box-shadow: 0 0 20px color-mix(in srgb, var(--chapter-accent) 22%, transparent); }
+
+@media (max-width: 760px) {
+  .hai-modal::after { display: none; }
+  .hai-modal-ornaments { display: block; }
+  .hai-modal-imprint { top: 51px; right: 75px; width: 32px; height: 38px; font-size: 15px; }
+  .hai-modal-imprint small { display: none; }
+  .hai-node-popover-body { padding: 7px 9px; }
+}
+
+/* Each gazetteer entry has its own illustrated edge; keep the reading well clear. */
+.hai-modal::after { display: none; }
+.hai-modal {
+  background: linear-gradient(125deg, rgba(251, 248, 237, .92), rgba(241, 240, 227, .88));
+}
+.hai-page--inner .hai-modal { background: linear-gradient(125deg, rgba(251, 250, 239, .92), rgba(235, 243, 231, .87)); }
+.hai-page--outer .hai-modal { background: linear-gradient(125deg, rgba(255, 250, 238, .92), rgba(243, 235, 217, .87)); }
+.hai-modal-subject {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  width: 29%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: .42;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 48%), linear-gradient(180deg, transparent, #000 13% 87%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 48%), linear-gradient(180deg, transparent, #000 13% 87%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  pointer-events: none;
+}
+.hai-modal-subject--generated { width: 37%; object-fit: contain; object-position: right center; opacity: .48; mix-blend-mode: normal; -webkit-mask-image: none; mask-image: none; }
+.hai-modal-heading, .hai-modal-body { position: relative; z-index: 3; background: transparent; }
+.hai-modal-heading { background: transparent; }
+.hai-modal-content { background: transparent; padding-right: 34%; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.hai-tabs { background: linear-gradient(90deg, rgba(250, 247, 237, .72), rgba(250, 247, 237, .42)); }
+.hai-tab { background: rgba(255, 251, 239, .85); }
+.hai-fact-list, .hai-quote-list, .hai-point-list, .hai-meaning, .hai-modal-fallback { position: relative; z-index: 3; }
+.hai-page--outer .hai-modal--scale-frame::after {
+  display: block;
+  z-index: 2;
+  background-image: url('/assets/hai/frame-scale-v1.png');
+  opacity: .36;
+  -webkit-mask-image: linear-gradient(90deg, #000 0 21%, transparent 21% 83%, #000 83%), linear-gradient(180deg, #000 0 23%, transparent 23% 100%);
+  mask-image: linear-gradient(90deg, #000 0 21%, transparent 21% 83%, #000 83%), linear-gradient(180deg, #000 0 23%, transparent 23% 100%);
+}
+.hai-modal--scale-frame .hai-modal-heading { padding-left: 21%; }
+.hai-modal--scale-frame .hai-tabs { background: rgba(251, 248, 237, .72); }
+.hai-modal--scale-frame .hai-modal-content { padding-right: 26%; }
+.hai-entry-ornament {
+  position: absolute;
+  z-index: 4;
+  top: 4px;
+  left: -10px;
+  width: min(390px, 44%);
+  height: 220px;
+  overflow: visible;
+  color: var(--chapter-accent);
+  opacity: .37;
+  pointer-events: none;
+}
+.hai-entry-ornament-lines { stroke-width: 1.25; }
+.hai-entry-ornament-motif { stroke-width: 1.7; }
+.hai-entry-ornament-mark { font-family: 'Noto Serif SC', serif; font-size: 12px; letter-spacing: 0; }
+.hai-modal--scale-frame .hai-entry-ornament { display: none; }
+@media (max-width: 760px) {
+  .hai-modal-subject {
+    top: 0;
+    width: 48%;
+    height: 145px;
+    opacity: .24;
+    -webkit-mask-image: linear-gradient(180deg, #000, transparent 100%);
+    mask-image: linear-gradient(180deg, #000, transparent 100%);
+  }
+  .hai-modal-subject--generated { width: 50%; opacity: .26; }
+  .hai-modal-content { padding-right: 29px; }
+  .hai-page--outer .hai-modal--scale-frame::after {
+    opacity: .25;
+    -webkit-mask-image: linear-gradient(90deg, #000 0 10%, transparent 10% 90%, #000 90%), linear-gradient(180deg, #000 0 20%, transparent 20% 100%);
+    mask-image: linear-gradient(90deg, #000 0 10%, transparent 10% 90%, #000 90%), linear-gradient(180deg, #000 0 20%, transparent 20% 100%);
+  }
+  .hai-modal--scale-frame .hai-modal-heading { padding-left: 28px; }
+  .hai-entry-ornament { display: none; }
+}
+
+/* —— English mode adjustments —— */
+html[lang='en'] .hai-node-popover strong,
+html[lang='en'] .hai-node-popover-line,
+html[lang='en'] .hai-node-popover small{letter-spacing:.02em}
+html[lang='en'] .hai-node-popover-line{-webkit-line-clamp:3;line-clamp:3}
+html[lang='en'] .hai-modal-heading h2{font-family:'JacquesFrancois',Georgia,serif;font-weight:700;letter-spacing:.02em}
+html[lang='en'] .hai-fact-row{grid-template-columns:minmax(0,1fr);gap:3px}

@@ -1,0 +1,134 @@
+.beast-journal-wrap { position:fixed; z-index:61; inset:0; display:grid; place-items:center; padding:clamp(12px,3vw,42px); overflow-y:auto; }
+.beast-journal { position:relative; width:min(1050px,100%); max-height:min(880px,92svh); overflow-y:auto; color:#342b22; background:radial-gradient(circle at 16% 28%,#fff9e9 0,#f4ead7 45%,#e9dac0 100%); border:1px solid #b59c73; box-shadow:0 28px 75px rgba(29,23,17,.38),inset 0 0 0 7px rgba(255,252,240,.45); font-family:'Noto Serif SC','Source Han Serif SC',SimSun,serif; animation:beast-journal-in .45s cubic-bezier(.16,1,.3,1) both; }
+.beast-journal::before { content:''; position:absolute; inset:10px; border:1px solid rgba(139,108,69,.18); pointer-events:none; }
+.beast-journal::after { content:''; position:absolute; inset:0; opacity:.14; pointer-events:none; background-image:radial-gradient(#79674e .45px,transparent .45px); background-size:4px 4px; }
+@keyframes beast-journal-in { from { opacity:0; transform:translateY(22px) scale(.985); } }
+.beast-journal-head { position:sticky; z-index:5; top:0; display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:58px; padding:0 30px; border-bottom:1px solid rgba(134,103,68,.28); background:rgba(247,238,218,.96); backdrop-filter:blur(8px); color:#8c6749; font-size:11px; letter-spacing:.15em; }
+.beast-journal-head button { border:0; background:none; color:#8e563d; font:inherit; cursor:pointer; white-space:nowrap; }.beast-journal-head button:hover { color:#b43f2c; }
+/* header 中部的「山海百灵 · 主题」链接态（该兽已收录百灵时显示） */
+.beast-journal-head a { color:inherit; text-decoration:none; white-space:nowrap; }
+.beast-journal-head a:hover { color:#b43f2c; }
+.beast-journal-body { position:relative; z-index:1; display:grid; grid-template-columns:minmax(0,46%) minmax(0,54%); min-height:665px; }
+.beast-journal-portrait { position:relative; display:flex; flex-direction:column; justify-content:space-between; min-width:0; padding:33px 29px 27px; overflow:hidden; border-right:1px solid rgba(133,103,67,.27); background:radial-gradient(circle at 50% 44%,rgba(255,253,239,.78),rgba(217,193,154,.15) 75%); }
+.beast-journal-portrait::before { content:''; position:absolute; width:72%; aspect-ratio:1; left:14%; top:22%; border:1px solid rgba(151,116,72,.25); border-radius:50%; box-shadow:0 0 0 23px rgba(164,130,87,.055); }
+.beast-journal-portrait-label { position:relative; color:#9a7152; font-size:11px; letter-spacing:.17em; }.beast-journal-portrait-index { position:relative; align-self:flex-end; color:#a18b6c; font:10px Georgia,serif; letter-spacing:.15em; }
+.beast-journal-art { position:relative; display:grid; place-items:center; flex:1; min-height:420px; }.beast-journal-art img { width:95%; height:460px; max-height:100%; object-fit:contain; filter:drop-shadow(0 15px 12px rgba(72,55,34,.16)); }.beast-journal-art-pending { display:flex; flex-direction:column; align-items:center; gap:14px; color:#ab8664; }.beast-journal-art-pending b { display:grid; place-items:center; width:175px; height:175px; border:2px solid #bc9f7b; border-radius:50%; font-size:100px; font-weight:400; }.beast-journal-art-pending small { font-size:11px; letter-spacing:.2em; }
+.beast-journal-text { padding:37px clamp(26px,4vw,55px) 26px; }.beast-journal-title { padding-bottom:23px; border-bottom:1px solid rgba(137,102,67,.29); }.beast-journal-title > span { color:#ac6b4b; font-size:11px; letter-spacing:.2em; }.beast-journal-title h2 { margin:9px 0 13px; color:#2f2822; font-family:'TitleFont','Noto Serif SC','Source Han Serif SC','SimSun',serif; font-size:clamp(39px,4vw,61px); font-weight:400; letter-spacing:.16em; line-height:1.2; }.beast-journal-title p { max-width:38em; color:#695746; font-size:13px; line-height:1.95; text-indent:2em; }
+.beast-journal-section { padding:22px 0 20px; border-bottom:1px solid rgba(137,102,67,.24); }.beast-journal-section h3 { display:flex; align-items:center; gap:11px; margin-bottom:12px; color:#9b5c42; font-size:13px; font-weight:600; letter-spacing:.18em; }.beast-journal-section h3 i { display:grid; place-items:center; width:23px; height:23px; border:1px solid #af6d53; color:#a45a40; font-size:11px; font-style:normal; line-height:1; }.beast-journal-section p { color:#635242; font-size:12px; line-height:1.95; }.beast-journal-muted { opacity:.7; }
+.beast-journal-clues { display:flex; flex-wrap:wrap; gap:7px; margin:0; padding:0; list-style:none; }.beast-journal-clues li { padding:7px 10px; border:1px solid rgba(142,109,72,.32); background:rgba(255,249,231,.56); color:#665039; font-size:11px; line-height:1.4; }
+.beast-journal-section blockquote { margin:0; padding:7px 0 7px 14px; border-left:2px solid #b7664d; color:#4f4033; font-size:13px; line-height:1.95; }.beast-journal-section--quote small { display:block; margin-top:11px; color:#a08c72; font-size:10px; line-height:1.8; }
+.beast-journal-foot { display:flex; justify-content:space-between; margin-top:22px; color:#a99475; font-size:10px; letter-spacing:.22em; }
+.beast-journal-head button:focus-visible { outline:1px solid #bd7654; outline-offset:5px; }
+.beast-journal-title p { font-size:15px; line-height:1.9; }
+.beast-journal-section h3 { font-size:14px; }
+.beast-journal-section p,.beast-journal-section blockquote { font-size:14px; line-height:1.9; }
+.beast-journal-section > p { text-indent:2em; }
+.beast-journal-clues li { font-size:13px; }
+.beast-journal-section--quote small { font-size:11px; }
+@media (max-width:720px) { .beast-journal-wrap { display:block; padding:0; }.beast-journal { width:100%; min-height:100svh; max-height:none; border:0; }.beast-journal-head { min-height:54px; padding:0 17px; }.beast-journal-head > span { display:none; }.beast-journal-body { display:block; }.beast-journal-portrait { height:325px; padding:22px 23px 18px; border-right:0; border-bottom:1px solid rgba(133,103,67,.27); }.beast-journal-portrait::before { width:200px; left:calc(50% - 100px); top:65px; }.beast-journal-art { min-height:0; }.beast-journal-art img { height:250px; }.beast-journal-art-pending b { width:115px; height:115px; font-size:70px; }.beast-journal-text { padding:27px 25px 37px; }.beast-journal-title h2 { font-size:42px; } }
+@media (prefers-reduced-motion:reduce) { .beast-journal { animation:none; } }
+.beast-popup-detail { display:flex; align-items:center; justify-content:space-between; width:100%; margin-top:16px; padding:11px 13px; border:1px solid #9e5a3e; background:#9e5139; color:#fff7e9; font:12px 'Noto Serif SC','Source Han Serif SC',SimSun,serif; letter-spacing:.18em; cursor:pointer; transition:background .2s,transform .2s; }.beast-popup-detail:hover { background:#7c3d2d; transform:translateY(-2px); }.beast-popup-detail span { font-size:18px; line-height:1; }
+.beast-journal--profile .beast-journal-portrait { position:sticky; top:58px; align-self:start; height:calc(min(880px, 92svh) - 58px); }
+.beast-journal--profile .beast-journal-text { padding-bottom:44px; }
+.beast-journal-subtitle { display:block; margin:0 0 10px; color:#965d45; font-size:15px; font-weight:600; letter-spacing:.08em; }
+.beast-journal-section-eyebrow { display:block; margin:0 0 12px 34px; color:#b18a63; font-size:10px; letter-spacing:.16em; }
+.beast-journal--profile .beast-journal-section p + p { margin-top:12px; }
+.beast-journal-sources { display:flex; flex-wrap:wrap; align-items:center; gap:9px 16px; padding:18px 0 0; font-size:11px; letter-spacing:.05em; }
+.beast-journal-sources span { width:100%; color:#a18b6c; letter-spacing:.16em; }
+.beast-journal-sources a { color:#9a563d; text-decoration:none; border-bottom:1px solid rgba(154,86,61,.36); padding-bottom:3px; }
+.beast-journal-sources a:hover,.beast-journal-sources a:focus-visible { color:#6e3528; border-bottom-color:currentColor; }
+@media (max-width:720px) { .beast-journal--profile .beast-journal-portrait { position:relative; top:auto; height:325px; } .beast-journal-section-eyebrow { margin-left:0; } }
+
+/* 长篇异兽志：图像生成的边框只围住舞台，正文始终保持可读、可滚动。 */
+.beast-journal-wrap { padding:14px; background:rgba(8,14,15,.88); backdrop-filter:blur(9px); }
+.beast-journal {
+  --journal-accent:#dec389;
+  --journal-wash-x:50%; --journal-wash-y:50%;
+  isolation:isolate; width:min(1380px,98vw); height:min(890px,96svh); max-height:none; overflow:hidden;
+  color:#efe8d8;
+  background:radial-gradient(circle at var(--journal-wash-x) var(--journal-wash-y),color-mix(in srgb,var(--journal-accent) 11%,transparent),transparent 52%),radial-gradient(circle at 50% 100%,rgba(70,88,82,.19),transparent 52%),#111b1b;
+  border:0; box-shadow:0 34px 100px rgba(0,0,0,.5);
+}
+.beast-journal::before { z-index:5; inset:0; border:0; border-radius:0; box-shadow:none; background:var(--journal-frame) center / 100% 100% no-repeat; }
+.beast-journal::after { z-index:0; inset:14% 8% 10%; opacity:1; border:1px solid color-mix(in srgb,var(--journal-accent) 22%,transparent); background:radial-gradient(rgba(241,224,181,.055) .5px,transparent .5px) 0 0 / 5px 5px; }
+.beast-journal-head { position:absolute; z-index:6; top:clamp(95px,12%,116px); left:clamp(92px,8.5%,120px); right:clamp(92px,8.5%,120px); height:42px; min-height:0; padding:0; background:none; backdrop-filter:none; border-bottom:1px solid rgba(218,196,153,.22); color:#c8b997; }
+.beast-journal-head b { color:var(--journal-accent); padding-inline:8px; }
+.beast-journal-head button { padding:6px 0; color:#e0cba1; }
+.beast-journal-head a { padding:6px 0; color:#e0cba1; }
+.beast-journal-head a:hover { color:#fff9e6; }
+.beast-journal-head button:hover { color:#fff9e6; }
+.beast-journal-head button:focus-visible,.beast-journal-sources a:focus-visible { outline:1px solid var(--journal-accent); outline-offset:4px; }
+.beast-journal-body { position:absolute; z-index:1; inset:clamp(148px,18%,168px) clamp(91px,8.5%,120px) clamp(75px,10%,96px); display:grid; grid-template-columns:minmax(0,43%) minmax(0,57%); min-height:0; border:1px solid rgba(218,196,153,.13); background:linear-gradient(105deg,rgba(17,30,30,.38),rgba(17,29,28,.7)); }
+.beast-journal-portrait,.beast-journal--profile .beast-journal-portrait { position:relative; top:auto; align-self:stretch; height:auto; min-height:0; padding:25px 28px 22px; border-right:1px solid rgba(218,196,153,.22); background:radial-gradient(circle at 50% 50%,color-mix(in srgb,var(--journal-accent) 13%,transparent),transparent 53%),linear-gradient(140deg,rgba(239,231,207,.055),transparent 50%); }
+.beast-journal-portrait::before { width:min(78%,350px); aspect-ratio:1; height:auto; left:50%; top:50%; transform:translate(-50%,-50%); border:1px solid color-mix(in srgb,var(--journal-accent) 37%,transparent); box-shadow:0 0 0 19px rgba(227,206,159,.035),0 0 0 38px rgba(227,206,159,.025); }
+.beast-journal--waters .beast-journal-portrait::before { border-radius:46% 54% 57% 43%; transform:translate(-50%,-50%) rotate(18deg); }
+.beast-journal--fierce .beast-journal-portrait::before { border-radius:24%; transform:translate(-50%,-50%) rotate(45deg); }
+.beast-journal--mountain .beast-journal-portrait::before { border-radius:42% 42% 25% 25%; }
+.beast-journal-portrait-label,.beast-journal-portrait-bottom { position:relative; z-index:1; }
+.beast-journal-portrait-label { color:#cabb9b; }
+.beast-journal-portrait-label i { color:var(--journal-accent); font-style:normal; padding-inline:4px; }
+.beast-journal-art { z-index:1; min-height:0; }
+.beast-journal-art img { display:block; width:min(94%,420px); height:auto; max-height:min(95%,430px); filter:drop-shadow(0 18px 22px rgba(0,0,0,.5)); animation:beast-art-arrive .8s cubic-bezier(.16,1,.3,1) both; }
+@keyframes beast-art-arrive { from { opacity:0; transform:translateY(12px) scale(.96); } }
+.beast-journal-art-pending { color:#c9b68b; }
+.beast-journal-art-pending b { border-color:currentColor; }
+.beast-journal-portrait-bottom { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; }
+.beast-journal-seal { display:grid; place-items:center; width:45px; height:45px; border:1px solid var(--journal-accent); color:var(--journal-accent); font-size:13px; letter-spacing:.05em; writing-mode:vertical-rl; }
+.beast-journal-portrait-index { color:#a89e85; }
+.beast-journal-text,.beast-journal--profile .beast-journal-text { min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:29px clamp(28px,4vw,54px) 34px; scrollbar-width:thin; scrollbar-color:color-mix(in srgb,var(--journal-accent) 65%,transparent) transparent; }
+.beast-journal-text::-webkit-scrollbar { width:5px; }
+.beast-journal-text::-webkit-scrollbar-thumb { background:color-mix(in srgb,var(--journal-accent) 65%,transparent); }
+.beast-journal-title { border-bottom-color:rgba(218,196,153,.25); }
+.beast-journal-title > span,.beast-journal-subtitle { color:var(--journal-accent); }
+.beast-journal-title h2 { color:#fff6e4; }
+.beast-journal-title p { color:#d7cebb; font-size:14px; }
+.beast-journal-section { border-bottom-color:rgba(218,196,153,.17); }
+.beast-journal-section h3 { color:#f0debc; font-size:15px; }
+.beast-journal-section h3 i { border-color:var(--journal-accent); color:var(--journal-accent); }
+.beast-journal-section p { color:#d1c9b8; font-size:14px; line-height:2; }
+.beast-journal-section-eyebrow { color:var(--journal-accent); opacity:.8; }
+.beast-journal-clues li { border-color:color-mix(in srgb,var(--journal-accent) 48%,transparent); background:color-mix(in srgb,var(--journal-accent) 8%,transparent); color:#e5dccc; font-size:12px; }
+.beast-journal-section blockquote { padding:12px 17px; border-left-color:var(--journal-accent); background:rgba(230,212,171,.07); color:#eadfc9; }
+.beast-journal-section--quote small { color:#a99e87; }
+.beast-journal-sources span { color:var(--journal-accent); }
+.beast-journal-sources a { color:#ddcda9; border-bottom-color:color-mix(in srgb,var(--journal-accent) 55%,transparent); }
+.beast-journal-sources a:hover { color:#fff7e3; }
+.beast-journal-foot { color:#9e947e; }
+
+@media (max-width:900px) {
+  .beast-journal-wrap { display:block; padding:0; background:#111b1b; }
+  .beast-journal { width:100%; min-height:100svh; height:100svh; overflow-y:auto; }
+  .beast-journal::before { inset:0 0 auto; height:240px; background-size:100% 240px; opacity:.65; }
+  .beast-journal::after { inset:12px; }
+  .beast-journal-head { position:sticky; top:0; left:auto; right:auto; height:55px; min-height:55px; padding:0 19px; border-bottom:1px solid rgba(218,196,153,.25); background:rgba(16,27,27,.94); backdrop-filter:blur(9px); }
+  .beast-journal-head > span { display:none; }
+  .beast-journal-body { position:relative; inset:auto; display:block; margin:13px; border:1px solid rgba(218,196,153,.22); }
+  .beast-journal-portrait,.beast-journal--profile .beast-journal-portrait { height:340px; padding:20px 23px 17px; border-right:0; border-bottom:1px solid rgba(218,196,153,.22); }
+  .beast-journal-portrait::before { width:215px; }
+  .beast-journal-art img { max-height:250px; }
+  .beast-journal-text,.beast-journal--profile .beast-journal-text { overflow:visible; padding:29px 24px 39px; }
+  .beast-journal-title h2 { font-size:43px; }
+  .beast-journal-section-eyebrow { margin-left:0; }
+}
+@media (prefers-reduced-motion:reduce) { .beast-journal-art img { animation:none; } }
+
+/* 控件与题签避开角饰，移动端只取一处角饰，避免边框压住主体。 */
+@media (min-width:901px) {
+  .beast-journal-head { left:clamp(225px,21%,300px); right:clamp(225px,21%,300px); }
+  .beast-journal-portrait-label,.beast-journal-portrait-index { display:none; }
+  .beast-journal-portrait-bottom { justify-content:flex-end; }
+}
+@media (max-width:900px) {
+  .beast-journal::before { display:none; }
+  .beast-journal-portrait::after { content:''; position:absolute; z-index:1; top:0; right:0; width:145px; height:150px; pointer-events:none; opacity:.85; background:var(--journal-frame) right top / 560px 350px no-repeat; }
+}
+
+/* Keep the animated specimen inside its viewing ring and clear of the frame ornament. */
+@media (min-width:901px) {
+  /* 夫诸原gif画布留白多，放大裁切后填满观兽圈 */
+  .beast-journal--fuzhu .beast-journal-art { transform:translate(28%, -2%); }
+  .beast-journal--fuzhu .beast-journal-art img { width:126%; max-height:none; margin-left:-13%; }
+  .beast-journal--shangao .beast-journal-art { transform:translate(6%, -2%); }
+  .beast-journal--zhuru .beast-journal-art { transform:translate(8%, 11%); }
+  .beast-journal--juanyang .beast-journal-art { transform:translate(7%, -2%); }
+}

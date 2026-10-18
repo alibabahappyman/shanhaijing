@@ -1,43 +1,28 @@
-import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { JING_LIST } from '../data/jinglist.js'
-import InkFluid from '../components/InkFluid.jsx'
+import { useEffect, useRef, useState } from 'react'
 import IntroSequence from '../components/IntroSequence.jsx'
+import WorldAtlas from '../components/WorldAtlas.jsx'
+// 水墨流体画布：总地图页底的落墨效果（划过拖墨、点击炸墨花）
+import InkFluid from '../components/InkFluid.jsx'
+import { useLang } from '../i18n/LanguageContext.jsx'
+import './Home.css'
 
 export default function Home() {
+  const { lang } = useLang()
   // 水墨画布对外暴露 injectBurst，供后续开场动画调用
   const burstRef = useRef(null)
-  // 开场序列：本会话只播一次；intro 挂起时首页内容先不出（避免穿帮）
   const [intro, setIntro] = useState(() => !sessionStorage.getItem('shx-intro-done'))
+  // 总图「重看卷首」：清除标记后发事件，让首页重新挂载卷首封面
+  useEffect(() => {
+    const replay = () => setIntro(true)
+    window.addEventListener('shx-replay-intro', replay)
+    return () => window.removeEventListener('shx-replay-intro', replay)
+  }, [])
+  useEffect(() => { document.title = lang === 'en' ? 'The Wandering Myth · Shan Hai Jing' : '山海行卷 · Shan Hai Jing' }, [lang])
   return (
-    <div className="hero">
+    <div className={`hero home-landing${intro ? ' home-landing--intro' : ''}`}>
       <InkFluid burstRef={burstRef} />
       {intro && <IntroSequence onDone={() => setIntro(false)} />}
-      {!intro && (
-        <>
-          <h1>山海经</h1>
-          <p className="tagline">五经滚动长卷 · 数字地理志</p>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {JING_LIST.map((j) =>
-              j.ready ? (
-                <Link
-                  key={j.id}
-                  to={`/scroll/${j.id}`}
-                  className="back-map"
-                  style={{ textDecoration: 'none', display: 'inline-block' }}
-                >
-                  进入{j.name}
-                </Link>
-              ) : (
-                <button key={j.id} className="back-map" disabled style={{ opacity: 0.4, cursor: 'not-allowed' }}>
-                  {j.name} · 未解锁
-                </button>
-              ),
-            )}
-          </div>
-          <p className="scroll-hint">↓ 选择一经，开始行旅</p>
-        </>
-      )}
+      {!intro && <WorldAtlas />}
     </div>
   )
 }

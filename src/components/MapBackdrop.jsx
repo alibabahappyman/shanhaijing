@@ -95,6 +95,43 @@ const MOTION_LAYERS = [
   { scene: 'fajiu', seg: 2, node: '发鸠山', file: '/assets/motion/bei/fajiu.webp', x: -165, y: -80, w: 330 },
   { scene: 'xuanyuan', seg: 2, node: '轩辕山', file: '/assets/motion/bei/xuanyuan.webp', x: -165, y: -80, w: 330 },
   { scene: 'wufeng', seg: 2, node: '錞于毋逢山', file: '/assets/motion/bei/wufeng.webp', x: -165, y: -80, w: 330 },
+  { scene: 'qianwei', seg: 0, node: '钱来山', file: '/assets/motion/西/钱来山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'taihua', seg: 0, node: '太华山', file: '/assets/motion/西/太华山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'yuanci', seg: 0, node: '羭次山', file: '/assets/motion/西/羭次山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'huangshan', seg: 0, node: '黄山', file: '/assets/motion/西/黄山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'lutai', seg: 1, node: '鹿台山', file: '/assets/motion/西/鹿台山 .webp', x: -165, y: -80, w: 330 },
+  { scene: 'xiaoci', seg: 1, node: '小次山', file: '/assets/motion/西/小次山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'huaijiang', seg: 2, node: '槐江山', file: '/assets/motion/西/槐江山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'kunlun', seg: 2, node: '昆仑丘', file: '/assets/motion/西/昆仑丘.webp', x: -165, y: -80, w: 330 },
+  { scene: 'yushan', seg: 2, node: '玉山', file: '/assets/motion/西/玉山.webp', x: -165, y: -80, w: 330 },
+  { scene: "zhang'e", seg: 2, node: '章莪山', file: '/assets/motion/西/章莪山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'tianshan', seg: 2, node: '天山', file: '/assets/motion/西/天山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'wenyao', seg: 2, node: '泰器山', file: '/assets/motion/西/泰器山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'yanzi', seg: 2, node: '崦嵫山', file: '/assets/motion/西/崦嵫山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'guishan', seg: 3, node: '邽山', file: '/assets/motion/西/邽山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'yanzi4', seg: 3, node: '崦嵫山', file: '/assets/motion/西/崦嵫山后段.webp', x: -165, y: -80, w: 330 },
+  // 中山经（assets/motion/中/，按山名命名，10 山齐备）
+  { scene: 'xianshan', seg: 0, node: '鲜山', file: '/assets/motion/中/鲜山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'yangshan', seg: 0, node: '阳山', file: '/assets/motion/中/阳山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'aoanshan', seg: 0, node: '敖岸山', file: '/assets/motion/中/敖岸山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'qingyaoshan', seg: 0, node: '青要山', file: '/assets/motion/中/青要山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'kushan', seg: 1, node: '苦山', file: '/assets/motion/中/苦山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'guyaoshan', seg: 1, node: '姑媱山', file: '/assets/motion/中/姑媱山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'fengshan', seg: 1, node: '丰山', file: '/assets/motion/中/丰山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'minshan', seg: 1, node: '岷山', file: '/assets/motion/中/岷山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'guangshan', seg: 2, node: '光山', file: '/assets/motion/中/光山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'dongtingshan', seg: 2, node: '洞庭山', file: '/assets/motion/中/洞庭山.webp', x: -165, y: -80, w: 330 },
+  // 南山经（assets/motion/南/，按山名命名，10 山齐备）
+  { scene: 'zhaoyao', seg: 0, node: '招摇山', file: '/assets/motion/南/招摇山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'zuyang', seg: 0, node: '杻阳山', file: '/assets/motion/南/杻阳山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'dishan', seg: 0, node: '柢山', file: '/assets/motion/南/柢山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'qingqiu', seg: 0, node: '青丘山', file: '/assets/motion/南/青丘山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'guishan', seg: 1, node: '柜山', file: '/assets/motion/南/柜山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'yaoguang', seg: 1, node: '尧光山', file: '/assets/motion/南/尧光山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'luwu', seg: 1, node: '鹿吴山', file: '/assets/motion/南/鹿吴山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'daoguo', seg: 2, node: '祷过山', file: '/assets/motion/南/祷过山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'danxue', seg: 2, node: '丹穴山', file: '/assets/motion/南/丹穴山.webp', x: -165, y: -80, w: 330 },
+  { scene: 'nanyu', seg: 2, node: '南禺山', file: '/assets/motion/南/南禺山.webp', x: -165, y: -80, w: 330 },
 ]
 
 export default function MapBackdrop({ data, camX, camY, zoom = 1, routeProgress, activeSeg, sceneNode }) {
@@ -134,7 +171,7 @@ export default function MapBackdrop({ data, camX, camY, zoom = 1, routeProgress,
   )
 
   // 当前场景对应的节点（主山，画大号）
-  const majorKey = sceneNode ? `${sceneNode.segIndex}-${sceneNode.name}` : null
+  const majorKey = sceneNode ? `${sceneNode.segIndex}-${sceneNode.nodeIndex}` : null
 
   // 装饰元素：山沿路线散布，渡海之后换浪纹
   const decor = useMemo(() => {
@@ -161,7 +198,7 @@ export default function MapBackdrop({ data, camX, camY, zoom = 1, routeProgress,
 
   // 当前场景是否有实景 motion 图（有则装饰山/云/浪淡出，让实景独占画面）
   const motionActive = MOTION_LAYERS.some(
-    (m) => sceneNode?.segIndex === m.seg && sceneNode?.name === m.node
+    (m) => sceneNode?.segIndex === m.seg && sceneNode?.name === m.node && sceneNode?.id === m.scene
   )
 
   // 摄影机：地图单位 → viewBox 百分比单位（100×100）
@@ -185,9 +222,9 @@ export default function MapBackdrop({ data, camX, camY, zoom = 1, routeProgress,
           {/* 独立在 map-rough 滤镜组外：置换噪声会二次搅糊位图，毛边只留给线条装饰 */}
           {MOTION_LAYERS.map((m) => {
             const seg = data.segments[m.seg]
-            const node = seg?.nodes.find((n) => n.name === m.node)
+            const on = sceneNode?.segIndex === m.seg && sceneNode?.name === m.node && sceneNode?.id === m.scene
+            const node = on ? seg?.nodes[sceneNode.nodeIndex] : seg?.nodes.find((n) => n.name === m.node)
             if (!node) return null
-            const on = sceneNode?.segIndex === m.seg && sceneNode?.name === m.node
             return (
               <image
                 key={m.scene}
@@ -249,7 +286,7 @@ export default function MapBackdrop({ data, camX, camY, zoom = 1, routeProgress,
                 {nodes.map((n, ni) => {
                   const wx = nodeWorldX(si, n)
                   const on = ni < visited
-                  const isMajor = majorKey === `${si}-${n.name}`
+                  const isMajor = majorKey === `${si}-${ni}`
                   // 文字用固定地图单位（不乘 zoom）：屏显大小恒定 ≈ 28px
                   const fs = isMajor ? 5.5 : 3.2
                   return (

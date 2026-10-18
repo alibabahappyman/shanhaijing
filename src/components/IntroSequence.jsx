@@ -1,77 +1,89 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import gsap from 'gsap'
+import { useLang } from '../i18n/LanguageContext.jsx'
+import './IntroSequence.css'
 
-// 首页开场序列（独立覆盖层）：落墨 → 题名 → 展卷
-// - 覆盖在首页内容之上，播完整体淡出、交还首页（onDone）
-// - 右上角"跳过"随时可点；8s 兜底强制结束，绝不卡在片头
-// - 落墨直接复用首页 InkFluid 游走墨源的开局炸墨，不另起 WebGL 上下文
-// - sessionStorage 记录，本会话不再重播
 const INTRO_KEY = 'shx-intro-done'
 
 export default function IntroSequence({ onDone }) {
-  const rootRef = useRef(null)
-  const doneRef = useRef(false)
-  const finishRef = useRef(() => {})
+  const { t, lang } = useLang()
+  const coverRef = useRef(null)
+  const leavingRef = useRef(false)
+  const [leaving, setLeaving] = useState(false)
 
   useEffect(() => {
-    const finish = () => {
-      if (doneRef.current) return
-      doneRef.current = true
-      sessionStorage.setItem(INTRO_KEY, '1')
-      gsap.to(rootRef.current, { opacity: 0, duration: 0.6, ease: 'power1.out', onComplete: onDone })
-    }
-    finishRef.current = finish
+    const cover = coverRef.current
+    if (!cover || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    // 动效敏感用户：直接终态
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      finish()
+    const animation = gsap.timeline()
+      .fromTo(cover.querySelector('.entrance-landscape'),
+        { opacity: 0, scale: 1.045 },
+        { opacity: 1, scale: 1, duration: 1.6, ease: 'power2.out' })
+      .fromTo(cover.querySelector('.entrance-title-art'),
+        { opacity: 0, clipPath: 'inset(0 0 100% 0)', y: 28 },
+        { opacity: 1, clipPath: 'inset(0 0 0% 0)', y: 0, duration: 1.5, ease: 'power2.inOut' }, .35)
+      .fromTo(cover.querySelectorAll('.entrance-meta, .entrance-copy, .entrance-actions, .entrance-editor-scroll'),
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: .65, stagger: .14, ease: 'power2.out' }, 1.05)
+
+    return () => animation.kill()
+  }, [])
+
+  const enter = (immediate = false) => {
+    if (leavingRef.current) return
+    leavingRef.current = true
+    setLeaving(true)
+    sessionStorage.setItem(INTRO_KEY, '1')
+
+    if (immediate || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      onDone()
       return
     }
 
-    const root = rootRef.current
-    const tl = gsap.timeline()
-    // 题名逐字从墨里"洇"出来（模糊 → 清晰）
-    tl.fromTo(
-      root.querySelectorAll('.intro-char'),
-      { opacity: 0, filter: 'blur(14px)', scale: 1.15 },
-      { opacity: 1, filter: 'blur(0px)', scale: 1, duration: 1.0, stagger: 0.22, ease: 'power2.out' },
-      0.4
-    )
-    // 朱印盖下：加速落下 + 微旋
-    tl.fromTo(
-      root.querySelector('.intro-seal'),
-      { opacity: 0, scale: 1.8, rotate: -10 },
-      { opacity: 1, scale: 1, rotate: -3, duration: 0.32, ease: 'power3.in' },
-      2.2
-    )
-    // 副标题
-    tl.fromTo(root.querySelector('.intro-tagline'), { opacity: 0 }, { opacity: 1, duration: 0.8, ease: 'power1.out' }, 2.9)
-    // 跳过按钮提示
-    tl.fromTo(root.querySelector('.intro-skip'), { opacity: 0 }, { opacity: 0.65, duration: 0.5 }, 1.0)
-    // 收尾停留后交还首页
-    tl.add(() => finishRef.current(), 4.8)
+    const cover = coverRef.current
+    gsap.timeline({ onComplete: onDone })
+      .to(cover.querySelector('.entrance-title-art'), { opacity: 0, y: -42, filter: 'blur(8px)', duration: .7, ease: 'power2.in' }, 0)
+      .to(cover.querySelectorAll('.entrance-copy, .entrance-actions, .entrance-meta'), { opacity: 0, y: 18, duration: .35 }, 0)
+      .to(cover.querySelector('.entrance-landscape'), { scale: 1.08, filter: 'blur(5px)', duration: .95, ease: 'power2.inOut' }, 0)
+      .to(cover, { opacity: 0, duration: .5, ease: 'power1.out' }, .55)
+  }
 
-    const safety = setTimeout(() => finishRef.current(), 8000) // 兜底：动画异常也不白屏
-    return () => {
-      tl.kill()
-      clearTimeout(safety)
-    }
-  }, [onDone])
+  return <section className={`entrance-cover${leaving ? ' is-leaving' : ''}`} ref={coverRef} aria-label={t({ zh: '山海经卷首封面', en: 'Classic of Mountains and Seas cover page' })}>
+    <div className="entrance-landscape" aria-hidden="true" />
+    <div className="entrance-grain" aria-hidden="true" />
 
-  return (
-    <div className="intro-seq" ref={rootRef}>
-      <h1 className="intro-title">
-        {'山海经'.split('').map((c, i) => (
-          <span key={i} className="intro-char">
-            {c}
-          </span>
-        ))}
-      </h1>
-      <span className="intro-seal">行旅</span>
-      <p className="intro-tagline">五经滚动长卷 · 数字地理志</p>
-      <button className="intro-skip" onClick={() => finishRef.current()}>
-        跳过开场 →
-      </button>
+    <header className="entrance-meta">
+      <span>{t({ zh: '山海行卷', en: 'The Wandering Myth' })}</span>
+      <span className="entrance-meta-right">{t({ zh: '卷首', en: 'Frontispiece' })} <i /> 001</span>
+    </header>
+
+    <div className="entrance-title-wrap">
+      <h1 className="entrance-title-text">{t({ zh: '山海经', en: 'The Classic of Mountains and Seas' })}</h1>
+      <img className="entrance-title-art" src="/assets/entrance/shanhai-brush-title-v1.png" alt="" aria-hidden="true" draggable="false" />
+      <span className="entrance-title-seal" aria-hidden="true">山海<br />有灵</span>
     </div>
-  )
+
+    <div className="entrance-copy">
+      <span className="entrance-copy-number">{lang === 'en' ? 'THE CLASSIC OF MOUNTAINS AND SEAS · DIGITAL EDITION' : 'THE CLASSIC OF MOUNTAINS AND SEAS'}</span>
+      <p>{lang === 'en'
+        ? <>Follow the mountains, cross the four seas.<br />Within a single stroke of ink, all things are alive.</>
+        : <>循山川，渡四海。<br />于一笔墨色间，见万物有灵。</>}</p>
+    </div>
+
+    <div className="entrance-actions">
+      <button type="button" className="entrance-enter" onClick={() => enter()} aria-label={t({ zh: '进入山海总图', en: 'Enter the atlas of the Mountains and Seas' })}>
+        <span>{t({ zh: '入山海', en: 'Enter the Realm' })}</span><span className="entrance-enter-arrow" aria-hidden="true">↗</span>
+      </button>
+      <button type="button" className="entrance-skip" onClick={() => enter(true)}>{t({ zh: '直接看总图', en: 'Skip to the Atlas' })} <span aria-hidden="true">→</span></button>
+    </div>
+
+    <Link className="entrance-editor-scroll" to="/editor-note" onClick={() => sessionStorage.setItem(INTRO_KEY, '1')} aria-label={t({ zh: '展开编者有话说，阅读卷首语', en: 'Unfold the Editor\'s Note and read the preface' })}>
+      <span className="entrance-editor-rod" aria-hidden="true" />
+      <span className="entrance-editor-paper"><span className="entrance-editor-closed">{t({ zh: '编者有话说', en: 'Editor\'s Note' })}</span><span className="entrance-editor-open">{lang === 'en' ? <>Editor's Note<small>Unfold to read ↗</small></> : <>序：我们在安全的现代，失去了什么？<small>展卷阅读 ↗</small></>}</span></span>
+      <span className="entrance-editor-rod" aria-hidden="true" />
+    </Link>
+
+    <div className="entrance-footnote" aria-hidden="true"><span>{t({ zh: '山川为路 · 图卷为引', en: 'Mountains as Roads · Scrolls as Guides' })}</span><span>SHAN HAI JING</span></div>
+  </section>
 }

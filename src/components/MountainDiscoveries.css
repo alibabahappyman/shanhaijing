@@ -1,0 +1,58 @@
+.mountain-discoveries {
+  position: fixed;
+  top: clamp(155px, 22vh, 245px);
+  z-index: 7;
+  width: clamp(220px, 18vw, 280px);
+  max-height: min(67vh, 650px);
+  color: #514538;
+  pointer-events: auto;
+  filter: drop-shadow(0 9px 22px rgba(78, 57, 37, .08));
+  animation: discoveries-enter .65s both;
+}
+.mountain-discoveries--right { right: clamp(20px, 2.3vw, 48px); }
+.mountain-discoveries--left { left: clamp(20px, 2.3vw, 48px); }
+.mountain-discoveries-body {
+  display: flex;
+  flex-direction: column;
+  max-height: inherit;
+  padding: 16px 18px 10px;
+  border-left: 1px solid rgba(147, 104, 72, .42);
+  background: linear-gradient(105deg, rgba(246, 239, 225, .88), rgba(247, 241, 230, .78) 80%, rgba(247, 241, 230, .52));
+  backdrop-filter: blur(10px);
+}
+.mountain-discoveries--left .mountain-discoveries-body { border-left: 0; border-right: 1px solid rgba(147, 104, 72, .42); }
+.mountain-discoveries-heading { display: flex; align-items: center; gap: 11px; padding: 0 0 14px; border-bottom: 1px solid rgba(141, 110, 73, .26); }
+.mountain-discoveries-seal { display: grid; place-items: center; width: 31px; height: 31px; flex: none; border: 1px solid #a86a50; color: #a45d45; font: 17px 'Noto Serif SC', serif; transform: rotate(-6deg); }
+.mountain-discoveries-heading div { min-width: 0; }
+.mountain-discoveries-heading small { display: block; color: #9f7d61; font-size: 10px; letter-spacing: .12em; white-space: nowrap; }
+.mountain-discoveries-heading h3 { margin: 2px 0 0; color: #443629; font: 20px 'Noto Serif SC', 'Songti SC', serif; letter-spacing: .2em; }
+.mountain-discoveries-count { margin-left: auto; color: #a47a5b; font: 12px Georgia, serif; }
+.mountain-discoveries-list { min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #b8a284 transparent; }
+.mountain-discoveries-item { display: grid; grid-template-columns: 27px minmax(0, 1fr) auto 13px; align-items: center; gap: 5px; width: 100%; padding: 10px 1px; border: 0; border-bottom: 1px solid rgba(133, 109, 77, .13); background: transparent; color: inherit; text-align: left; cursor: pointer; transition: padding .25s, color .25s, background .25s; }
+.mountain-discoveries-item:hover, .mountain-discoveries-item:focus-visible, .mountain-discoveries-item.is-selected { padding-left: 6px; color: #9c5339; background: rgba(173, 127, 77, .07); }
+.mountain-discoveries-item:focus-visible, .mountain-discoveries-journal:focus-visible, .mountain-discoveries-detail button:focus-visible { outline: 1px solid #ad6c4d; outline-offset: -1px; }
+.mountain-discoveries-number { color: #af9780; font: 10px Georgia, serif; }
+.mountain-discoveries-name { overflow: hidden; font: 13px 'Noto Serif SC', 'Songti SC', serif; letter-spacing: .07em; text-overflow: ellipsis; white-space: nowrap; }
+.mountain-discoveries-kind { color: #a99579; font-size: 10px; white-space: nowrap; }
+.mountain-discoveries-mark { color: #b37752; font-size: 13px; }
+.mountain-discoveries-detail { padding: 14px 2px 12px; border-bottom: 1px solid rgba(133, 109, 77, .2); }
+.mountain-discoveries-detail-top { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; color: #ad6c4d; font-size: 10px; letter-spacing: .16em; }
+.mountain-discoveries-detail-top i { height: 1px; flex: 1; background: linear-gradient(90deg, rgba(173,108,77,.45), transparent); }
+.mountain-discoveries-detail strong { color: #443629; font: 17px 'Noto Serif SC', 'Songti SC', serif; letter-spacing: .09em; }
+.mountain-discoveries-detail p { margin: 7px 0 0; color: #685b4d; font-size: 11px; line-height: 1.8; }
+.mountain-discoveries-detail small, .mountain-discoveries-detail button { display: block; margin-top: 10px; color: #a57455; font-size: 10px; letter-spacing: .1em; }
+.mountain-discoveries-detail button { padding: 0; border: 0; background: none; cursor: pointer; }
+.mountain-discoveries-journal { display: flex; justify-content: space-between; width: 100%; padding: 11px 2px 3px; border: 0; background: none; color: #905a40; font-size: 11px; letter-spacing: .14em; cursor: pointer; }
+.mountain-discoveries-journal span { font-size: 16px; }
+.mountain-discoveries-mobile-toggle { display: none; }
+@keyframes discoveries-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 1050px) and (min-width: 761px) { .mountain-discoveries { width: 210px; } .mountain-discoveries--right { right: 2vw; } .mountain-discoveries--left { left: 2vw; } }
+@media (max-width: 760px) {
+  .mountain-discoveries, .mountain-discoveries--right, .mountain-discoveries--left { top: auto; right: auto; left: 4vw; bottom: 62px; width: min(310px, 78vw); max-height: 56vh; filter: none; }
+  .mountain-discoveries-mobile-toggle { display: flex; align-items: center; gap: 9px; width: 100%; padding: 11px 14px; border: 1px solid rgba(137, 99, 67, .4); background: rgba(246, 239, 225, .94); color: #59483a; font: 13px 'Noto Serif SC', serif; letter-spacing: .13em; }
+  .mountain-discoveries-mobile-toggle small { color: #9f8065; font-size: 10px; }
+  .mountain-discoveries-mobile-toggle b { margin-left: auto; font: 19px Georgia, serif; }
+  .mountain-discoveries-body { display: none; max-height: calc(56vh - 44px); border: 1px solid rgba(137,99,67,.4); border-top: 0; background: rgba(246,239,225,.96); }
+  .mountain-discoveries.is-open .mountain-discoveries-body { display: flex; }
+}
+@media (prefers-reduced-motion: reduce) { .mountain-discoveries { animation: none; } .mountain-discoveries-item { transition: none; } }

@@ -1,0 +1,131 @@
+.scroll-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 120;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  min-height: 68px;
+  padding: 0 clamp(18px, 3.2vw, 52px);
+  border-bottom: 1px solid rgba(100, 82, 57, .22);
+  background: linear-gradient(180deg, rgba(246, 239, 225, .96), rgba(246, 239, 225, .87));
+  box-shadow: 0 5px 20px rgba(43, 35, 24, .055);
+  backdrop-filter: blur(11px);
+  color: #3a3128;
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
+}
+
+.scroll-header a { color: inherit; text-decoration: none; }
+.scroll-header-back { display: inline-flex; align-items: center; gap: 9px; justify-self: start; min-height: 42px; font-size: 13px; letter-spacing: .14em; transition: color .2s, transform .2s; }
+/* 国风箭头：替换原字符 ←，弱化尺寸与墨色 */
+.scroll-header-back .ru-arrow { width: 17px; height: 17px; opacity: .78; }
+.scroll-header-back:hover { color: #9b5c3e; transform: translateX(-3px); }
+.scroll-header-back:hover .ru-arrow { opacity: 1; }
+/* 返回山海百灵的上下文条：紧跟在返回总览之后，同款样式，配色偏百灵金 */
+.scroll-header-bailing { color: #a46439; margin-left: 18px; padding-left: 18px; border-left: 1px solid rgba(100, 82, 57, .24); }
+.scroll-header-bailing:hover { color: #bc9b67; }
+.scroll-header-brand { justify-self: center; white-space: nowrap; font-size: 17px; font-weight: 600; letter-spacing: .25em; }
+.scroll-header-brand span { color: #bc9b67; margin: 0 5px; }
+.scroll-header-brand small { color: #756957; font-size: 12px; font-weight: 400; letter-spacing: .2em; }
+.scroll-header-volume { position: relative; justify-self: end; }
+.scroll-header-select { display: inline-flex; align-items: center; gap: 9px; min-height: 42px; padding: 0 0 0 15px; border: 0; border-left: 1px solid rgba(100, 82, 57, .24); background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.scroll-header-select-label { color: #887a66; font-size: 11px; letter-spacing: .12em; }
+.scroll-header-select strong { font-size: 13px; font-weight: 500; letter-spacing: .13em; }
+.scroll-header-chevron { display: inline-block; color: #9b6d3d; font-family: Arial, sans-serif; font-size: 20px; line-height: 1; transform: translateY(-3px); transition: transform .2s; }
+.scroll-header-chevron.is-open { transform: translateY(3px) rotate(180deg); }
+
+.scroll-header-menu { position: absolute; top: calc(100% + 12px); right: -10px; width: 228px; padding: 15px; border: 1px solid rgba(120, 92, 56, .48); background: rgba(249, 244, 233, .98); box-shadow: 0 18px 45px rgba(45, 34, 20, .18); backdrop-filter: blur(12px); }
+.scroll-header-menu::before { content: ''; position: absolute; top: 7px; left: 7px; right: 7px; bottom: 7px; border: 1px solid rgba(129, 103, 64, .14); pointer-events: none; }
+.scroll-header-menu p { position: relative; padding: 0 5px 9px; border-bottom: 1px solid rgba(116, 92, 62, .22); color: #96724a; font-size: 11px; letter-spacing: .2em; }
+.scroll-header-menu a, .scroll-header-menu .is-locked { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 10px 5px; border-bottom: 1px solid rgba(116, 92, 62, .12); font-size: 13px; transition: color .2s, background .2s; }
+.scroll-header-menu a:last-child, .scroll-header-menu .is-locked:last-child { border-bottom: 0; }
+.scroll-header-menu a:hover, .scroll-header-menu a.is-current { color: #a46439; background: rgba(164, 100, 57, .065); }
+.scroll-header-menu small { color: #9b8d77; font-size: 10px; white-space: nowrap; }
+.scroll-header-menu .is-locked { color: #aca596; }
+
+@media (max-width: 680px) {
+  .scroll-header { min-height: 59px; padding: 0 15px; grid-template-columns: 1fr auto; }
+  .scroll-header-brand { display: none; }
+  .scroll-header-back { font-size: 12px; }
+  .scroll-header-select-label { display: none; }
+  .scroll-header-select { padding-left: 10px; }
+  .scroll-header-menu { right: 0; }
+}
+
+/* 题签式导航：封面融入画纸，山行时才显出轻薄纸底。 */
+.scroll-header {
+  min-height: 66px;
+  border-bottom-color: rgba(100, 82, 57, .12);
+  background: rgba(247, 241, 229, .82);
+  box-shadow: none;
+}
+.scroll-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: clamp(20px, 3.2vw, 56px);
+  right: clamp(20px, 3.2vw, 56px);
+  height: 1px;
+  background: rgba(118, 94, 62, .15);
+}
+.scroll-header--cover {
+  border-bottom-color: transparent;
+  background: linear-gradient(180deg, rgba(247, 241, 229, .72), rgba(247, 241, 229, .04));
+  backdrop-filter: none;
+}
+.scroll-header--cover::after { background: rgba(118, 94, 62, .11); }
+.scroll-header-brand { display: flex; align-items: baseline; gap: 11px; font-size: 15px; letter-spacing: .23em; }
+.scroll-header-brand span { color: #41372d; margin: 0; }
+.scroll-header-brand i { color: #b49366; font-style: normal; }
+.scroll-header-brand strong { color: #695c49; font-size: 12px; font-weight: 400; letter-spacing: .18em; }
+.scroll-header-brand small { margin-left: 6px; padding-left: 14px; border-left: 1px solid rgba(118,94,62,.2); color: #97856d; font-size: 10px; letter-spacing: .14em; }
+.scroll-header-select { padding-left: 0; border-left: 0; font-size: 12px; letter-spacing: .15em; }
+.scroll-header-select:hover { color: #9b5c3e; }
+.scroll-header-menu { border-color: rgba(120, 92, 56, .4); box-shadow: 0 16px 38px rgba(45, 34, 20, .13); }
+@media (max-width: 680px) {
+  .scroll-header { min-height: 58px; }
+  .scroll-header::after { left: 15px; right: 15px; }
+  .scroll-header-brand { display: none; }
+  .scroll-header-select { padding-left: 0; font-size: 11px; }
+}
+
+/* 卷首上缘的连续兽纹只占一窄带，导航文字留在干净的纸面上。 */
+.scroll-header--dongshan { --header-ornament: #8b7461; --frieze-image: url('/assets/navigation/frieze-dongshan.png'); }
+.scroll-header--nanshan { --header-ornament: #92715d; --frieze-image: url('/assets/navigation/frieze-nanshan.png'); }
+.scroll-header--xishan { --header-ornament: #9a785a; --frieze-image: url('/assets/navigation/frieze-xishan.png'); }
+.scroll-header--beishan { --header-ornament: #65817d; --frieze-image: url('/assets/navigation/frieze-beishan.png'); }
+.scroll-header--zhongshan { --header-ornament: #8d7666; --frieze-image: url('/assets/navigation/frieze-zhongshan.png'); }
+.scroll-header { min-height: 84px; padding-top: 20px; }
+.scroll-header::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 46px;
+  pointer-events: none;
+  opacity: .23;
+  background-image: var(--frieze-image);
+  background-repeat: repeat-x;
+  background-size: 300px 100px;
+  background-position: center -18px;
+  filter: grayscale(.32) sepia(.3) saturate(.6);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.55), #000 22%, rgba(0,0,0,.73) 57%, transparent 100%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.55), #000 22%, rgba(0,0,0,.73) 57%, transparent 100%);
+}
+.scroll-header--beishan::before { filter: grayscale(.65) sepia(.15) hue-rotate(140deg) saturate(.55); }
+.scroll-header-center { justify-self: center; display: flex; align-items: center; justify-content: center; min-width: 0; color: var(--header-ornament, #8b7461); }
+.scroll-header-brand { position: relative; align-items: center; min-height: 45px; padding: 0 16px; border-top: 1px solid rgba(132, 106, 75, .23); border-bottom: 1px solid rgba(132, 106, 75, .23); background: linear-gradient(90deg, rgba(251,247,237,.12), rgba(251,247,237,.58) 50%, rgba(251,247,237,.12)); }
+.scroll-header-brand::before, .scroll-header-brand::after { content: ''; position: absolute; top: calc(50% - 3px); width: 5px; height: 5px; border: 1px solid var(--header-ornament, #8b7461); opacity: .58; transform: rotate(45deg); }
+.scroll-header-brand::before { left: -4px; }
+.scroll-header-brand::after { right: -4px; }
+.scroll-header-mobile-seal { display: none; }
+
+@media (max-width: 1050px) {
+  .scroll-header-brand small { display: none; }
+}
+@media (max-width: 680px) {
+  .scroll-header { min-height: 72px; padding-top: 15px; }
+  .scroll-header::before { height: 25px; background-size: 200px 67px; background-position: center -12px; opacity: .2; }
+  .scroll-header-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  .scroll-header-brand { display: none; }
+  .scroll-header-mobile-seal { display: grid; place-items: center; width: 29px; height: 29px; border: 1px solid rgba(148, 104, 79, .56); outline: 1px solid rgba(148, 104, 79, .2); outline-offset: -4px; color: var(--header-ornament, #8b7461); font-size: 9px; letter-spacing: .02em; writing-mode: vertical-rl; }
+}

@@ -1,0 +1,105 @@
+.journey-index {
+  position: fixed;
+  left: clamp(16px, 3vw, 44px);
+  bottom: clamp(24px, 4vh, 44px);
+  z-index: 105;
+  width: min(320px, calc(100vw - 32px));
+  color: #3a3128;
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
+}
+
+.journey-index-toggle {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 65px;
+  padding: 10px 14px;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  border: 1px solid rgba(137, 108, 68, .63);
+  background: linear-gradient(135deg, rgba(253, 248, 235, .97), rgba(233, 221, 199, .96));
+  box-shadow: 0 10px 30px rgba(47, 36, 22, .13), inset 0 0 0 3px rgba(255, 253, 246, .45);
+  backdrop-filter: blur(10px);
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+}
+
+.journey-index-toggle:hover {
+  transform: translateY(-2px);
+  border-color: #aa7450;
+  box-shadow: 0 15px 34px rgba(47, 36, 22, .2), inset 0 0 0 3px rgba(255, 253, 246, .55);
+}
+
+.journey-index-glyph {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  margin-right: 13px;
+  border: 1px solid rgba(164, 75, 52, .7);
+  color: #a94d39;
+  font-size: 18px;
+}
+
+.journey-index-current { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.journey-index-current small { color: #8d785d; font-size: 10px; letter-spacing: .15em; white-space: nowrap; }
+.journey-index-current strong { font-size: 14px; font-weight: 400; letter-spacing: .14em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.journey-index-action { margin-left: auto; padding-left: 8px; white-space: nowrap; color: #a45c3e; font-size: 11px; letter-spacing: .12em; }
+.journey-index-action i { margin-left: 5px; font-style: normal; font-size: 17px; vertical-align: -1px; }
+
+.journey-index-sheet {
+  max-height: min(64vh, 560px);
+  overflow: auto;
+  margin-bottom: 9px;
+  padding: 20px 17px 17px;
+  border: 1px solid rgba(137, 108, 68, .7);
+  background: linear-gradient(145deg, rgba(253, 248, 235, .98), rgba(234, 223, 201, .98));
+  box-shadow: 0 18px 48px rgba(47, 36, 22, .2), inset 0 0 0 4px rgba(255, 253, 246, .48);
+  backdrop-filter: blur(12px);
+  animation: journey-sheet-in .3s cubic-bezier(.16, 1, .3, 1);
+}
+
+@keyframes journey-sheet-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.journey-index-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 4px 13px; border-bottom: 1px solid rgba(137, 108, 68, .32); }
+.journey-index-heading span { font-size: 16px; letter-spacing: .2em; }
+.journey-index-heading small { font-size: 10px; color: #8d785d; white-space: nowrap; }
+.journey-index-list { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 8px; padding-top: 12px; }
+.journey-index-list button { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 8px 4px; border: 0; border-bottom: 1px solid rgba(137, 108, 68, .17); background: none; color: #514534; font: inherit; font-size: 11px; text-align: left; cursor: pointer; transition: color .2s, background .2s; }
+.journey-index-list button:hover, .journey-index-list button.is-current { color: #a44c37; background: rgba(164, 75, 52, .075); }
+.journey-index-list button span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.journey-index-no { flex: none; color: #a17949; font-size: 10px; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 600px) {
+  .journey-index { bottom: 22px; width: min(290px, calc(100vw - 32px)); }
+  .journey-index-toggle { min-height: 58px; }
+  .journey-index-sheet { max-height: 50vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-index-toggle { transition: none; }
+  .journey-index-sheet { animation: none; }
+}
+
+/* 阅读页的目录收为贴边题签，封面由文字帘承担开卷入口。 */
+.journey-index { width: auto; bottom: clamp(21px, 3.5vh, 38px); }
+.journey-index.is-cover { display: none; }
+.journey-index-toggle {
+  width: auto;
+  min-height: 43px;
+  padding: 4px 10px 4px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(130, 104, 69, .44);
+  background: rgba(248, 242, 230, .48);
+  box-shadow: none;
+  backdrop-filter: blur(5px);
+}
+.journey-index-toggle:hover { transform: translateY(-2px); border-color: #a66c49; box-shadow: none; }
+.journey-index-glyph { width: 27px; height: 27px; margin-right: 9px; border-color: rgba(164,75,52,.58); font-size: 14px; }
+.journey-index-current { gap: 1px; }
+.journey-index-current strong { font-size: 12px; letter-spacing: .16em; }
+.journey-index-current small { font-size: 9px; letter-spacing: .08em; }
+.journey-index-action { font-family: Arial, sans-serif; font-size: 19px; padding-left: 13px; }
+.journey-index-sheet { width: min(322px, calc(100vw - 32px)); margin-bottom: 7px; box-shadow: 0 12px 32px rgba(47,36,22,.14); }
+@media (max-width: 600px) { .journey-index { width: auto; bottom: 16px; } .journey-index-toggle { min-height: 43px; } .journey-index-current small { display: none; } }

@@ -1,0 +1,22 @@
+.bgm-widget { position: fixed; z-index: 210; right: 18px; bottom: 18px; }
+/* 总地图右下角有缩放工具，音乐控件挪到左下角 */
+.bgm-widget--left { right: auto; left: 18px; }
+.bgm-toggle { position: relative; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgba(139, 105, 63, .55); border-radius: 50%; background: rgba(250, 242, 218, .92); color: #7a5c38; font-size: 19px; cursor: pointer; box-shadow: 0 5px 15px rgba(57, 44, 23, .22); transition: transform .2s, background .2s, color .2s; }
+.bgm-toggle:hover { transform: translateY(-2px); background: #fff0d2; }
+.bgm-toggle:focus-visible { outline: 2px solid #9d4d35; outline-offset: 3px; }
+.bgm-toggle.is-on { color: #a4452e; border-color: #a4452e; }
+
+/* 播放中的声波动画 */
+.bgm-bars { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 3px; opacity: 0; pointer-events: none; }
+.bgm-toggle.is-playing .bgm-icon { opacity: 0; }
+.bgm-toggle.is-playing .bgm-bars { opacity: 1; }
+.bgm-bars i { width: 3px; border-radius: 2px; background: currentColor; animation: bgm-bar 1s ease-in-out infinite; }
+.bgm-bars i:nth-child(1) { height: 10px; animation-delay: 0s; }
+.bgm-bars i:nth-child(2) { height: 16px; animation-delay: .18s; }
+.bgm-bars i:nth-child(3) { height: 12px; animation-delay: .36s; }
+@keyframes bgm-bar { 0%, 100% { transform: scaleY(.5); } 50% { transform: scaleY(1); } }
+
+@media (prefers-reduced-motion: reduce) { .bgm-bars i { animation: none; transform: none; } }
+
+/* 深色页面（异兽志/大荒）下换配色，靠 body[data-theme] 或页面根类名微调 */
+.bestiary-page ~ .bgm-widget, .dah-page ~ .bgm-widget { filter: none; }

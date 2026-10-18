@@ -1,0 +1,25 @@
+/* 国风箭头三件套（菱形尖 + 折线箭身，商周纹样几何风）
+   用法：<RuArrow dir="left|right|up-right|down" /> 或 CSS 背景引用。
+   图形走 currentColor，随所在链接的颜色与 hover 变化。 */
+
+.ru-arrow {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: -0.18em;
+  flex: none;
+}
+
+/* 链接内箭头的通用动效：返回类左移、跳转类右上移 */
+.ru-link-back:hover .ru-arrow,
+.ru-link-back:focus-visible .ru-arrow { transform: translateX(-3px); }
+.ru-link-fwd:hover .ru-arrow,
+.ru-link-fwd:focus-visible .ru-arrow { transform: translate(2px, -2px); }
+.ru-arrow { transition: transform .25s ease; }
+
+/* 大尺寸完整版（folio 卡片、CTA 用）：嵌回纹漩涡 */
+.ru-arrow--grand {
+  width: 2em;
+  height: 2em;
+  vertical-align: -0.4em;
+}

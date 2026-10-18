@@ -1,0 +1,45 @@
+.sh-route-flight--sample { background: #e7dfcc; }
+.sh-route-flight--sample::after { display: none; }
+.sh-passage { position: absolute; inset: 0; overflow: hidden; isolation: isolate; color: #40372d; background: #d7c8aa; }
+.sh-passage-stage { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: left top; will-change: transform; }
+.sh-passage-art { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; }
+.sh-passage-art-wash { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(240,229,205,.48), transparent 42%, rgba(236,222,195,.12) 85%), linear-gradient(0deg, rgba(235,222,199,.42), transparent 26%, transparent 78%, rgba(237,225,204,.28)); }
+.sh-passage-overlay { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.sh-passage-route-history { fill: none; stroke: rgba(112,88,61,.36); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 2 10; }
+.sh-passage-route-shadow { fill: none; stroke: rgba(56,45,33,.35); stroke-width: 10; stroke-linecap: round; opacity: .46; filter: blur(7px); }
+.sh-passage-route-base { fill: none; stroke: rgba(255,244,218,.84); stroke-width: 4.5; stroke-linecap: round; stroke-dasharray: 1 12; }
+.sh-passage-route-drawn { fill: none; stroke: url('#sh-passage-ink'); stroke-width: 3.7; stroke-linecap: round; stroke-dasharray: 100 100; filter: drop-shadow(0 1px 1px rgba(255,245,218,.85)); }
+.sh-passage-station-halo { fill: rgba(248,233,193,.2); stroke: rgba(255,249,222,.66); stroke-width: 1; }
+.sh-passage-station-ring { fill: rgba(92,65,43,.72); stroke: #f6eacb; stroke-width: 2.4; }
+.sh-passage-station-core { fill: #fff1cc; }
+.sh-passage-station--destination .sh-passage-station-halo { fill: rgba(230,191,124,.36); }
+.sh-passage-traveler-glow { fill: #f8d994; opacity: .88; }
+.sh-passage-traveler circle:first-child { fill: #79543a; stroke: #fff1cc; stroke-width: 2; }
+.sh-passage-traveler circle:last-child { fill: #fff1cc; }
+.sh-passage-traveler path { stroke: #fff1cc; stroke-width: 1.6; stroke-linecap: round; }
+.sh-passage-mist { position: absolute; left: -12%; right: -12%; height: 27%; pointer-events: none; will-change: transform; }
+.sh-passage-mist--near { bottom: -12%; background: radial-gradient(ellipse at 18% 76%, rgba(246,239,221,.84), transparent 28%), radial-gradient(ellipse at 57% 92%, rgba(246,239,221,.72), transparent 38%), radial-gradient(ellipse at 86% 70%, rgba(246,239,221,.83), transparent 28%); filter: blur(17px); }
+.sh-passage-mist--far { top: -13%; background: radial-gradient(ellipse at 22% 15%, rgba(245,236,215,.76), transparent 33%), radial-gradient(ellipse at 75% 21%, rgba(245,236,215,.56), transparent 37%); filter: blur(19px); }
+.sh-passage-caption { position: absolute; z-index: 2; left: clamp(30px,6vw,118px); bottom: clamp(36px,7vh,90px); min-width: 260px; padding: 21px 32px 20px 22px; border-left: 2px solid #986c48; background: linear-gradient(90deg, rgba(246,238,220,.92), rgba(246,238,220,.7) 74%, rgba(246,238,220,0)); text-shadow: 0 1px rgba(255,248,233,.65); }
+.sh-passage-caption-kicker { display: block; color: #9a6346; font-size: 12px; letter-spacing: .28em; }
+.sh-passage-caption-line { display: flex; align-items: center; gap: 15px; margin: 14px 0 10px; white-space: nowrap; font-size: clamp(24px,2.3vw,36px); font-family: 'Noto Serif SC','Songti SC',serif; letter-spacing: .12em; }
+.sh-passage-caption-line i { width: clamp(24px,4vw,60px); height: 1px; background: #ad8760; position: relative; }
+.sh-passage-caption-line i::after { content: ''; position: absolute; right: 0; top: -3px; width: 6px; height: 6px; border-top: 1px solid #ad8760; border-right: 1px solid #ad8760; transform: rotate(45deg); }
+.sh-passage-caption small { color: #746957; font-size: 11px; letter-spacing: .24em; }
+.sh-passage-index { position: absolute; z-index: 2; right: clamp(35px,6vw,105px); bottom: clamp(47px,8vh,100px); display: flex; align-items: center; gap: 11px; color: #68533d; font-family: 'Songti SC',serif; font-size: 19px; }
+.sh-passage-index i { width: 43px; height: 1px; background: currentColor; opacity: .6; }
+.sh-passage-side { position: absolute; z-index: 2; right: clamp(26px,4vw,68px); top: 13%; writing-mode: vertical-rl; letter-spacing: .5em; font-size: 11px; color: rgba(80,63,43,.78); }
+.sh-passage--xishan { filter: saturate(.94); }
+.sh-passage--beishan .sh-passage-art-wash { background: linear-gradient(0deg, rgba(224,230,226,.38), transparent 29%, rgba(236,241,234,.1)); }
+.sh-passage--dongshan .sh-passage-art-wash { background: linear-gradient(0deg, rgba(227,235,229,.28), transparent 35%); }
+.sh-passage--zhongshan .sh-passage-art-wash { background: linear-gradient(0deg, rgba(236,223,209,.26), transparent 34%); }
+@media (max-width: 700px) {
+  .sh-passage-art { background-position: 44% center; }
+  .sh-passage-caption { left: 18px; right: 18px; bottom: 24px; padding: 15px 14px; min-width: 0; }
+  .sh-passage-caption-line { font-size: 22px; }
+  .sh-passage-caption small { font-size: 9px; }
+  .sh-passage-index, .sh-passage-side { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sh-passage-stage, .sh-passage-mist { will-change: auto; }
+}
