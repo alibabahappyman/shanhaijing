@@ -1,50 +1,56 @@
-# 山海经 · 五经滚动长卷（shanhai-scroll）
+# 山海行卷 · Shan Hai Jing（The Wandering Myth）
 
-《山海经》数字地理志的"读经模式"：在世界地图点进某一经，进入该经的**滚动叙事长卷**——向下滑动 = 沿这条山脉行走。
+以数字长卷重述《山海经》——一次民族文化的创新性表达。
 
-上位项目文档见 `D:\素材\山海经\东山经滚动叙事-项目文档.md`。
+有人说，中国人的浪漫，一半在诗词，一半在山海。《山海行卷》将这部先秦古籍全本体系化为一个可游、可读、可治愈的交互网页：向下滚动，就是沿上古山脉逐山行走。
+
+**在线访问**：https://shanhaijing-nine.vercel.app/
+
+## 作品板块
+
+| 板块 | 内容 |
+| --- | --- |
+| 五藏山经滚动长卷 | 点入某一经，向下滚动即沿山脉逐山行走：路线随滚动生长、山川逐一点亮、异兽图鉴卡滑入浮现、渡海画面变色、以山神收束全卷 |
+| 海内海外经寰宇志 | 八经异国异兽依经文次第在海图上浮现，可循航线逐站游历 |
+| 大荒经神话卡牌 | 羲和浴日、应龙杀蚩尤等十六段上古神话，以"印章短语 + 经文 + 白话故事"的正反面卡牌呈现 |
+| 异兽图鉴 | 数十种异兽配原创动图与考据档案，含"山海百灵"专题，还原"以兽喻人"的镜像寓意 |
+| 编者按 | 阐明作品内核：山海经不是志怪猎奇，而是华夏最古老的浪漫与想象力 |
+
+另含水墨卷首开场动画、背景古乐、水墨光标等沉浸细节，全站支持中英双语切换。
 
 ## 技术栈
 
-- Vite + React 18 + React Router（hash 路由）
+- Vite + React 18 + React Router（hash 路由）+ GSAP
 - 原生滚动监听 + IntersectionObserver（路线生长、卡片浮现）
 - 数据驱动：每经一份 JSON，加经不加代码
+- 纯前端静态站点，无后端，部署于 Vercel
 
 ## 目录结构
 
 ```
 src/
-├─ components/
-│  ├─ ScrollScroll.jsx   长卷壳（滚动进度、段落追踪、渡海变色）
-│  ├─ RouteSVG.jsx       路线生长动效（虚线随滚动延伸、节点点亮）
-│  ├─ BeastCard.jsx      异兽图鉴卡（滑入+微旋转）
-│  ├─ GodDivider.jsx     山神转场/收束
-│  └─ MiniOverview.jsx   左上五经迷你总览（当前经高亮）
+├─ components/        长卷壳、路线生长、异兽卡、寰宇图、卷首动画等约 30 个组件
 ├─ data/
-│  ├─ jinglist.js        五经元信息（未完成的经置灰占位）
-│  └─ dongshan.json      东山经全量数据（路线节点/物产/异兽/山神/文案）
-└─ pages/
-   ├─ Home.jsx           五经入口
-   └─ ScrollPage.jsx     长卷路由页
+│  ├─ {dongshan,nanshan,xishan,beishan,zhongshan}.json   五藏山经全量数据
+│  ├─ haiJing.js / haiGazetteer.js                        海内海外经
+│  ├─ dahuangCards.js                                     大荒神话卡牌
+│  ├─ bestiary.js / beastProfiles*.js                     异兽图鉴
+│  └─ editorNote.js                                       编者按
+├─ i18n/              中英双语语言上下文
+├─ pages/             Home / ScrollPage / BestiaryPage / DahuangCards / HaiJingPage / EditorNotePage
+└─ styles/            全局与模块样式
 ```
 
-## 素材占位说明
-
-所有图片用**带名字的虚线占位框**。补素材时把 PNG 放进 `public/img/`，文件名与 JSON 中的 `img` 字段一致即可自动显示：
-
-- 异兽：`beast-<id>.png`（如 `beast-congcong.png` 从从、`beast-qiuyu.png` 犰狳）
-- 山神：`god-<name>.png`（如 `god-dragon.png` 人身龙首神、`god-goat.png` 人身羊角神）
+素材位于 `public/assets/`（五经长卷图、异兽动图、寰宇底图、音频、字体等），生成与处理脚本见 `scripts/`。
 
 ## 运行
 
 ```bash
 npm install
-npm run dev
+npm run dev     # 开发，默认 http://localhost:5173
+npm run build   # 构建产物输出到 dist/
 ```
 
-浏览器打开提示的地址（默认 http://localhost:5173）。
+## 部署
 
-## 当前状态
-
-- ✅ 东山经长卷全流程可滚（溯水 → 穿林 → 渡海变色 → 登岛 → 尾屏）
-- ⬜ 南山经 / 西山经 / 北山经 / 中山经：待路线图素材与数据
+项目为纯静态站点，已部署在 Vercel：推送至 GitHub 后 Vercel 自动以 Vite 预设构建（`npm run build` → `dist/`），无需额外配置。
